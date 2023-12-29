@@ -107,7 +107,7 @@ public class EstadisticasFragment extends Fragment implements Spinner.OnItemSele
         if(!multiplicacionesFallidas.isEmpty()){
             for (int i = 0;i<multiplicacionesFallidas.size();i++){
                 TextView tv = new TextView(requireContext());
-                tv.setTextSize(20);
+                tv.setTextSize(12);
                 tv.setTextColor(Color.BLACK);
                 tv.setText(multiplicacionesFallidas.get(i));
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();

@@ -3,10 +3,12 @@ package com.example.maestromultiplicacion20.inicio;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
@@ -43,6 +45,9 @@ public class MainActivityPrincipal extends AppCompatActivity {
         itemList = obtenerDatos(); // Método ficticio para obtener datos
         adapter = new ItemAdapter(itemList, this);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         adapter.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
             @Override
             public void onItemButtonClick() {
@@ -50,7 +55,6 @@ public class MainActivityPrincipal extends AppCompatActivity {
                 activityResultLauncher.launch(intent);
             }
         });
-        recyclerView.setAdapter(adapter);
 
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),

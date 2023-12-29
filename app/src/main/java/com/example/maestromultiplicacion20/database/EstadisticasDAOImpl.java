@@ -213,7 +213,7 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
                     if(tablasFallidasS.contains(",")){
                         trozos = tablasFallidasS.split(",");
                         for (String multiplicacion : trozos){
-                            tablasFallidas.add(multiplicacion.trim());
+                            tablasFallidas.add(multiplicacion);
                         }
                     }else{
                         tablasFallidas.add(tablasFallidasS);
