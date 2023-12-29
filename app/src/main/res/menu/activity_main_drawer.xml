@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_configuracion"
+            android:icon="@drawable/icons8_ajustes_32"
+            android:title="@string/menu_configuracion" />
+        <item
+            android:id="@+id/nav_entrenar"
+            android:icon="@drawable/icons8_cerebro_50"
+            android:title="@string/menu_entrenar" />
+        <item
+            android:id="@+id/nav_estadisticas"
+            android:icon="@drawable/icons8_gr_fico_combinado_50"
+            android:title="@string/menu_estadisticas" />
+        <item
+            android:id="@+id/nav_logros"
+            android:icon="@drawable/icons8_achievement_64"
+            android:title="@string/menu_logros" />
+        <item
+            android:id="@+id/nav_enviar"
+            android:icon="@drawable/icons8_enviar_64"
+            android:title="@string/menu_enviar" />
+        <item
+            android:id="@+id/nav_contactos"
+            android:icon="@drawable/icons8_contactos_30"
+            android:title="@string/menu_contactos" />
+        <item
+            android:id="@+id/nav_contactosFavoritos"
+            android:icon="@drawable/icons8_favoritos_48"
+            android:title="@string/menu_contactosFavoritos" />
+    </group>
+</menu>
