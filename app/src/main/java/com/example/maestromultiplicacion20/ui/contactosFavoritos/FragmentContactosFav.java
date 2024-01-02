@@ -29,6 +29,9 @@ import com.example.maestromultiplicacion20.modelo.Contacto;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragmento para mostrar los contactos favoritos
+ */
 public class FragmentContactosFav extends Fragment implements ContactosOnClick {
     private FragmentContactosFavBinding binding;
     private RecyclerView recyclerView;
@@ -68,6 +71,10 @@ public class FragmentContactosFav extends Fragment implements ContactosOnClick {
         solictarPermisoLectura();
         return root;
     }
+
+    /**
+     * Método para solicitar el permiso de lectura de los contactos
+     */
     private void solictarPermisoLectura() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -79,6 +86,9 @@ public class FragmentContactosFav extends Fragment implements ContactosOnClick {
         }
     }
 
+    /**
+     * Método para solicitar el permiso de escritura
+     */
     private void solicitarPermisoEscritura() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_CONTACTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -86,6 +96,9 @@ public class FragmentContactosFav extends Fragment implements ContactosOnClick {
         }
     }
 
+    /**
+     * Método para mostrar los contactos en el RecyclerView
+     */
     private void mostrarContactos() {
         contactos = obtenerContactosFavoritos();
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -93,6 +106,11 @@ public class FragmentContactosFav extends Fragment implements ContactosOnClick {
         adaptadorContactos = new AdaptadorContactos(contactos, this);
         recyclerView.setAdapter(adaptadorContactos);
     }
+
+    /**
+     * Método para obtener los contactos favoritos
+     * @return devuelve una lista de contactos
+     */
     private List<Contacto> obtenerContactosFavoritos() {
         List<Contacto> devolver = new ArrayList<>();
         String[] columnas = new String[]{
@@ -126,6 +144,11 @@ public class FragmentContactosFav extends Fragment implements ContactosOnClick {
         }
         return devolver;
     }
+
+    /**
+     * Método para quitar de favoritos un contactos
+     * @param id id del contacto
+     */
     private void quitarFavorito(int id) {
         ContentValues values = new ContentValues();
         values.put(ContactsContract.Contacts.STARRED, 0); // 1 para favorito, 0 para no favorito
@@ -141,7 +164,18 @@ public class FragmentContactosFav extends Fragment implements ContactosOnClick {
         Contacto contacto = contactos.get(posicion);
         contacto.setFavorito(false);
         quitarFavorito(contacto.getId());
-        contactos.remove(posicion);
-        adaptadorContactos.notifyDataSetChanged();
+
+        // Guardo el elemento eliminado para realizar un delayed
+        Contacto elementoEliminado = contactos.remove(posicion);
+        // notifico al adaptador para que actualize sus elementos
+        adaptadorContactos.notifyItemRemoved(posicion);
+        // Aplico la animación del elemento elimanado
+        recyclerView.postDelayed(() -> {
+            int posicionFinal = contactos.indexOf(elementoEliminado);
+            if (posicionFinal != -1) {
+                adaptadorContactos.notifyDataSetChanged();
+            }
+        }, 500);
     }
+
 }

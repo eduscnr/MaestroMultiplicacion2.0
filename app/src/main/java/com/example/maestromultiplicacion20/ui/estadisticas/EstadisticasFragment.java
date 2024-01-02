@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -47,6 +48,7 @@ public class EstadisticasFragment extends Fragment implements Spinner.OnItemSele
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEstadisticasBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        Button btnEliminarEsta = root.findViewById(R.id.btnEliminar);
         gridLayoutMulFallida = root.findViewById(R.id.gridMultiplicaciones);
         procentajeTv = root.findViewById(R.id.tvPorcentajeExito);
         progressBar = root.findViewById(R.id.pbExito);
@@ -67,6 +69,16 @@ public class EstadisticasFragment extends Fragment implements Spinner.OnItemSele
         spinnerTabla.setOnItemSelectedListener(this);
         spinnerFecha.setOnItemSelectedListener(this);
         spinnerUsuario.setOnItemSelectedListener(this);
+        btnEliminarEsta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                estadisticasDAO.eliminarEstadisticas();
+                aTablas.notifyDataSetChanged();
+                aFecha.notifyDataSetChanged();
+                progressBar.setProgress(0);
+                procentajeTv.setText("0%");
+            }
+        });
         return root;
     }
 

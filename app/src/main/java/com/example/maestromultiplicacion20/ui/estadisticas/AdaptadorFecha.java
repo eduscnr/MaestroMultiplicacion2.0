@@ -13,9 +13,12 @@ import com.example.maestromultiplicacion20.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase adptados para las fechas
+ */
 public class AdaptadorFecha extends ArrayAdapter<String> {
-    Context mContext;
-    List<String> fechas;
+    private Context mContext;
+    private List<String> fechas;
     public AdaptadorFecha(Context context, int resource, List<String> object) {
         super(context, resource, object);
         mContext = context;

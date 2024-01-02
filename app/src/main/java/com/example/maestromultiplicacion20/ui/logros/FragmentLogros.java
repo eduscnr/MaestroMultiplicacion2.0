@@ -17,6 +17,9 @@ import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.databinding.FragmentLogrosBinding;
 
+/**
+ * Fragmento para mostrar los avateres conseguido o logros
+ */
 public class FragmentLogros extends Fragment {
     private FragmentLogrosBinding binding;
     private GridLayout gridLayout;

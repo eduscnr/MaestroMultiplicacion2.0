@@ -17,8 +17,11 @@ import com.example.maestromultiplicacion20.modelo.Usuario;
 
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
-    private List<Item> itemList;
+/**
+ * Clase adaptador para el UsuarioPersonalizado
+ */
+public class UsuarioPersonalizadoAdapter extends RecyclerView.Adapter<UsuarioPersonalizadoAdapter.ViewHolder> {
+    private List<UsuarioPersonalizado> itemList;
     private OnItemClickListener onItemClickListener;
     private Context context;
 
@@ -28,7 +31,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
-    public ItemAdapter(List<Item> itemList, Context context) {
+    public UsuarioPersonalizadoAdapter(List<UsuarioPersonalizado> itemList, Context context) {
         this.itemList = itemList;
         this.context = context;
     }
@@ -37,13 +40,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_layout, parent, false);
+                .inflate(R.layout.usuario_personalizados_layout, parent, false);
         return new ViewHolder(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Item item = itemList.get(position);
+        UsuarioPersonalizado item = itemList.get(position);
         holder.imageButton.setImageResource(item.getImageResource());
         holder.textView.setText(item.getText());
     }
@@ -54,9 +57,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageButton imageButton;
-        TextView textView;
-        Context context;
+        private ImageButton imageButton;
+        private TextView textView;
+        private Context context;
 
         public ViewHolder(@NonNull View itemView, Context context) {
             super(itemView);
@@ -66,6 +69,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             this.context = context;
         }
 
+        /**
+         * Método dependiendo del usuario que quierea iniciar te pedira una clave o no
+          * @param view
+         */
         @Override
         public void onClick(View view) {
             if (textView.getText().toString().equalsIgnoreCase("Crear")) {

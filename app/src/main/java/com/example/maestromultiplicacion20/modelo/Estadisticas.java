@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+/**
+ * Clase para guardas las estadísticas
+ */
 public class Estadisticas {
     private int tablaSeleccionada;
     private String porcetajeDeExito;

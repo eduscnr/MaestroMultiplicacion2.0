@@ -1,10 +1,13 @@
 package com.example.maestromultiplicacion20.inicio;
 
-public class Item {
+/**
+ * Clase para recrear el icono de la pantalla inicial
+ */
+public class UsuarioPersonalizado {
     private int imageResource;
     private String text;
 
-    public Item(int imageResource, String text) {
+    public UsuarioPersonalizado(int imageResource, String text) {
         this.imageResource = imageResource;
         this.text = text;
     }

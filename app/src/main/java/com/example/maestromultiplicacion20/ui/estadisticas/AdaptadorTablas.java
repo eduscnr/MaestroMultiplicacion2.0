@@ -15,10 +15,13 @@ import com.example.maestromultiplicacion20.modelo.Estadisticas;
 
 import java.util.List;
 
+/**
+ * Clase Adaptador para las tablas
+ */
 public class AdaptadorTablas extends ArrayAdapter<Estadisticas> {
-    List<Estadisticas> estadisticas;
-    String [] nose;
-    Context mContext;
+    private List<Estadisticas> estadisticas;
+    private String [] nose;
+    private Context mContext;
     public AdaptadorTablas(@NonNull Context context, int resource, List<Estadisticas> estadisticas) {
         super(context, resource, estadisticas);
         mContext = context;

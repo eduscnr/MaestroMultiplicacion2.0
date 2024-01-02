@@ -3,6 +3,7 @@ package com.example.maestromultiplicacion20.inicio;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,9 @@ import com.example.maestromultiplicacion20.adaptadores.AdapatadorTipoCuenta;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 
+/**
+ * Clase para crear nuevos usuarios
+ */
 public class MainActivityLogin extends AppCompatActivity implements Spinner.OnItemSelectedListener{
     private String[] tipoCuentas= {"administrador", "usuario"};
     private Spinner spinnerCuenta;
@@ -28,6 +32,7 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_login);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         estadisticasDAO = new EstadisticasDAOImpl(this);
         EditText usuario = findViewById(R.id.edtNombreUsuario);
         Button enviar = findViewById(R.id.btnRegistrar);
@@ -38,12 +43,13 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
         aTipoCuenta = new AdapatadorTipoCuenta(this, R.layout.seleccion_cuenta, tipoCuentas);
         spinnerCuenta.setAdapter(aTipoCuenta);
         spinnerCuenta.setOnItemSelectedListener(this);
+        //onClick en el boton para realizar la creacion de un nuevo usuario y enviarselo a la actividad MainPrincipal
         enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(contrasenia.getVisibility() == View.VISIBLE && !contrasenia.getText().toString().equalsIgnoreCase("")){
                     if(!usuario.getText().toString().equalsIgnoreCase("")){
-                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), contrasenia.getText().toString(), cuenta);
+                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), contrasenia.getText().toString(), cuenta, R.drawable.icons8_usuario_48__1_);
                         textViewInformacion.setVisibility(View.GONE);
                         if(!registrado.equalsIgnoreCase("Usuario ya registrado")){
                             MainActivityPrincipal.getUsuarios().clear();
@@ -62,7 +68,7 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                     }
                 }else{
                     if(!usuario.getText().toString().equalsIgnoreCase("") && contrasenia.getVisibility() == View.GONE){
-                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), null, cuenta);
+                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), null, cuenta, R.drawable.icons8_usuario_48__1_);
                         if(!registrado.equalsIgnoreCase("Usuario ya registrado")){
                             textViewInformacion.setVisibility(View.GONE);
                             MainActivityPrincipal.getUsuarios().clear();

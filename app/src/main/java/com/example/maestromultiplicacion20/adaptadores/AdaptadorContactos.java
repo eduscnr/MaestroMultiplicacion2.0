@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +17,9 @@ import com.example.maestromultiplicacion20.modelo.Contacto;
 
 import java.util.List;
 
+/**
+ * Adaptador para mostrar los contactos y los contactor favoritos
+ */
 public class AdaptadorContactos extends RecyclerView.Adapter<AdaptadorContactos.ContactosViewHolder> {
     private List<Contacto> contactos;
     private ContactosOnClick contactosOnClick;
@@ -35,6 +40,7 @@ public class AdaptadorContactos extends RecyclerView.Adapter<AdaptadorContactos.
     @Override
     public void onBindViewHolder(ContactosViewHolder holder, int position) {
         Contacto c = contactos.get(position);
+        Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
         holder.nombre.setText(c.getNombre());
         holder.numero.setText(c.getNumero());
         if(c.esFavorito()){
@@ -53,6 +59,7 @@ public class AdaptadorContactos extends RecyclerView.Adapter<AdaptadorContactos.
                 }
             }
         });
+        holder.itemView.startAnimation(animation);
     }
 
     @Override

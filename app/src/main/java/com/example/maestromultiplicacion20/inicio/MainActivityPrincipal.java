@@ -16,16 +16,18 @@ import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.database.Sqlite;
-import com.example.maestromultiplicacion20.modelo.Estadisticas;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase principal, es lo que se muestra el principio de la app
+ */
 public class MainActivityPrincipal extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher;
-    private List<Item> itemList;
-    private ItemAdapter adapter;
+    private List<UsuarioPersonalizado> itemList;
+    private UsuarioPersonalizadoAdapter adapter;
     private EstadisticasDAO estadisticasDAO;
     private RecyclerView recyclerView;
     private static List<Usuario> usuarios;
@@ -37,25 +39,28 @@ public class MainActivityPrincipal extends AppCompatActivity {
         Sqlite sqlite = new Sqlite(this);
         estadisticasDAO = new EstadisticasDAOImpl(this);
         sqlite.getWritableDatabase();
+        //Obtiene una lista de usuarios que existe en la base de datos
         usuarios = estadisticasDAO.obtenerUsuarios();
-        List<Estadisticas> estadisticas = estadisticasDAO.obtenerEstadisticas("16/12/2023", "Usuario1");
-        System.out.println("Prueba: "+estadisticas);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        itemList = obtenerDatos(); // Método ficticio para obtener datos
-        adapter = new ItemAdapter(itemList, this);
+        //Añado una personalizado a los usuarios existentes
+        itemList = obtenerDatos();
+        adapter = new UsuarioPersonalizadoAdapter(itemList, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        //Reglas para que no afecte el modo oscuro y que no se pueda poner horizontal
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        adapter.setOnItemClickListener(new ItemAdapter.OnItemClickListener() {
+        //Añado un onClick en el adaptador para elegir el usuario que quiere iniciar en la aplicación, este onClick seria una interfaz
+        adapter.setOnItemClickListener(new UsuarioPersonalizadoAdapter.OnItemClickListener() {
             @Override
             public void onItemButtonClick() {
+                // Hago un intent que ejecuta otra actividad que seria la de login
                 Intent intent = new Intent(MainActivityPrincipal.this, MainActivityLogin.class);
                 activityResultLauncher.launch(intent);
             }
         });
-
+        //Recoge el resultado y añado un nuevo usuario si ha salido todo con exito
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -64,37 +69,58 @@ public class MainActivityPrincipal extends AppCompatActivity {
                         if (data != null) {
                             String usuario = data.getStringExtra("Usuario");
                             agregarNuevoElemento(usuario);
+                            //Si la lista ha excedido su limete máximo, quito el boton de agregar/añadir
+                            if(itemList.size() >= 6){
+                                itemList.remove(itemList.size()-1);
+                                adapter.notifyDataSetChanged();
+
+                            }
                         }
                     }
                 }
         );
     }
-    private List<Item> obtenerDatos() {
-        List<Item> itemList = new ArrayList<>();
+
+    /**
+     * Método para recopilar usuario existentes en la base de datos
+     * @return devuelvo una lista de UsuariosPersonalizado que seria un avatar/imagen y un texto que seria el nombre de usuario
+     */
+    private List<UsuarioPersonalizado> obtenerDatos() {
+        List<UsuarioPersonalizado> itemList = new ArrayList<>();
         //Uso esto porque juego con las medida del reciclerView en agregarNuevoElemento, entoces si no esta vacio quiero que el
         //reciclerView tenga una dimensiones diferente para que se muestre bastante bien.
         if(!usuarios.isEmpty()){
             for (Usuario u : usuarios){
-                itemList.add(new Item(u.getAvatarImg(), u.getNombreUsuario()));
+                itemList.add(new UsuarioPersonalizado(u.getAvatarImg(), u.getNombreUsuario()));
             }
             redimensionarReciclerView();
         }
-        // Agrega elementos ficticios a la lista
-        itemList.add(new Item(R.drawable.icons8_m_s_50, "Crear"));
-        // Agrega más elementos según sea necesario
+        //Añado el elemento crear si lo ha excedido su lime
+        if(itemList.size() < 5){
+            itemList.add(new UsuarioPersonalizado(R.drawable.icons8_m_s_50, "Crear"));
+        }
 
         return itemList;
     }
-    private void agregarNuevoElemento(String newData) {
-        // Crea un nuevo objeto Item con los datos recibidos y agrégalo a la lista
-        Item newItem = new Item(R.drawable.icons8_usuario_50, newData);
-        itemList.add(0, newItem);
 
-        // Notifica al adaptador que los datos han cambiado
-        adapter.notifyDataSetChanged();
-        redimensionarReciclerView();
+    /**
+     * Método para crear nuevos usuarios, ya sea administracidor o usuario normal
+     * @param nombreUsuario paso por paramento el nombre de usuario para crear su Login
+     */
+    private void agregarNuevoElemento(String nombreUsuario) {
+        if(itemList.size() <= 5){
+            UsuarioPersonalizado newItem = new UsuarioPersonalizado(R.drawable.icons8_usuario_48__1_, nombreUsuario);
+            itemList.add(0, newItem);
 
+            adapter.notifyDataSetChanged();
+            redimensionarReciclerView();
+        }
     }
+
+    /**
+     * Método para redimensionar el RecyclerView, cuando existe un solo elemento ("Crear") debe de esta en el centro para
+     * que quede más estético,cuando se añade un nuevo elemento el RecyclerView se redimensiona para que queda más estético
+     */
     public void redimensionarReciclerView(){
         float scale = getResources().getDisplayMetrics().density;
         int widthInDp = 270;

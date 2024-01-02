@@ -1,5 +1,8 @@
 package com.example.maestromultiplicacion20.modelo;
 
+/**
+ * Clase para guardas los contactos
+ */
 public class Contacto {
     private String nombre;
     private String numero;

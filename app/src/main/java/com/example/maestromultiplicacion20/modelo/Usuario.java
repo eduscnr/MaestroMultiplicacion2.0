@@ -1,5 +1,8 @@
 package com.example.maestromultiplicacion20.modelo;
 
+/**
+ * Clase para guardar los usuarios
+ */
 public class Usuario {
     private String nombreUsuario;
     private String tipoCuenta;

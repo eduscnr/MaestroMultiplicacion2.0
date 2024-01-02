@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Clase Adaptador para los usuarios
+ */
 public class AdaptadorUsuarios extends ArrayAdapter<String> {
     private Context context;
     private List<String> usuarios;

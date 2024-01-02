@@ -12,6 +12,9 @@ import androidx.annotation.Nullable;
 
 import com.example.maestromultiplicacion20.R;
 
+/**
+ * Adaptador para elegir el tipo de cuenta cuando quieras crear uno
+ */
 public class AdapatadorTipoCuenta extends ArrayAdapter<String> {
     private Context context;
     private String[] tipoCuentas= {"administrador", "usuario"};

@@ -139,7 +139,9 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    //Método encargado de mostrar la siguiente multiplicación del la lista.
+    /**
+     * Método encargado de mostrar la siguiente multiplicación del la lista.
+     */
     private void mostrarSiguienteMultiplicacion() {
         String multiplicacionActual;
         //Muestro la multiplicación si esta dentro del rango
@@ -167,7 +169,9 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    //Método para validar la respuesta del usuario y verifica si es correcta o no, si es correcta incrementa el avatar.
+    /**
+     * Método para validar la respuesta del usuario y verifica si es correcta o no, si es correcta incrementa el avatar.
+     */
     private void validarRespuesta() {
         //Compruebo si el indice esta dentro de la lista,
         if (MainActivity.getIndiceMultiplicacion() < MainActivity.getMultiplicaciones().size()) {
@@ -204,6 +208,10 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    /**
+     * Método pare generar en tiempo de ejecución botones en el GridPanel
+     * @param i
+     */
     private void aniadirBotones(int i) {
         GridLayout g = (GridLayout) binding.getRoot().findViewById(R.id.gridBotonera);
         Button b;
@@ -230,7 +238,11 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    //Método para recoger la tabla de multiplicar que me pasan por parametro (int tabla) y su dificultad.
+    /**
+     * Método para recoger la tabla de multiplicar que me pasan por parametro (int tabla) y su dificultad.
+     * @param dificultad dificulta de esa tabla
+     * @param tabla el número de la tabla
+     */
     private void entrenar(String dificultad, int tabla) {
         MainActivity.getMultiplicaciones().clear();
         MainActivity.setIndiceMultiplicacion(0);
@@ -264,7 +276,10 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         }, 100);
     }
 
-    //Método para recoger las imagenes del avatar que ha seleccionado.
+    /**
+     * Método para recoger las imagenes del avatar que ha seleccionado.
+     * @param posicionAvatar índice de esa avatar para combiar de color
+     */
     private void inicializarAvatar(int posicionAvatar) {
         MainActivity.getAvatares().clear();
         multiplicacionFallidas = new ArrayList<>();

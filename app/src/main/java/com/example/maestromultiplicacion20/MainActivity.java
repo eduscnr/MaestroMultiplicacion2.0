@@ -1,5 +1,6 @@
 package com.example.maestromultiplicacion20;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity{
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         multiplicaciones = new ArrayList<>();
         avatares = new ArrayList<>();
         estadisticas = new ArrayList<>();
@@ -75,15 +77,20 @@ public class MainActivity extends AppCompatActivity{
         TextView textView = navigationView.getHeaderView(0).findViewById(R.id.textViewUsuario);
         textView.setText(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
         imageView.setImageResource(MainActivityPrincipal.getUsuarioLogeado().getAvatarImg());
+        //Referencia de los id del menu para ocultar fragmentos, dependiendo del tipo de cuenta
         menu = navigationView.getMenu();
         MenuItem menuEstadisticas = menu.findItem(R.id.nav_estadisticas);
         MenuItem menuEntrenar = menu.findItem(R.id.nav_entrenar);
         MenuItem menConfiguracion = menu.findItem(R.id.nav_configuracion);
         MenuItem menuLogos = menu.findItem(R.id.nav_logros);
         MenuItem menuEnviarEsta = menu.findItem(R.id.nav_enviar);
+        MenuItem menuContactos = menu.findItem(R.id.nav_contactos);
+        MenuItem menuContactosFav = menu.findItem(R.id.nav_contactosFavoritos);
         if(MainActivityPrincipal.getUsuarioLogeado().getTipoCuenta().equalsIgnoreCase("usuario")){
             menuEstadisticas.setVisible(false);
             menuEnviarEsta.setVisible(false);
+            menuContactos.setVisible(false);
+            menuContactosFav.setVisible(false);
             menuEntrenar.setVisible(true);
             menConfiguracion.setVisible(true);
 
@@ -91,6 +98,8 @@ public class MainActivity extends AppCompatActivity{
         }else{
             menuEstadisticas.setVisible(true);
             menuEnviarEsta.setVisible(true);
+            menuContactos.setVisible(true);
+            menuContactosFav.setVisible(true);
             menuEntrenar.setVisible(false);
             menConfiguracion.setVisible(false);
             menuLogos.setVisible(false);

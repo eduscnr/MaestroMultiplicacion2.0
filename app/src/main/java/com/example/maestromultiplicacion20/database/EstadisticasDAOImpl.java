@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+/**
+ * Clase para implementar la interfaz DAO que tiene la base de datos.
+ */
 public class EstadisticasDAOImpl implements EstadisticasDAO {
     private Sqlite dbHelper;
     private SQLiteDatabase db;
@@ -146,12 +149,12 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
      * @param tipoCuenta
      */
     @Override
-    public String registrarUsuario(String usuario, String contrasenia, String tipoCuenta) {
+    public String registrarUsuario(String usuario, String contrasenia, String tipoCuenta, int avatar) {
         db = dbHelper.getReadableDatabase();
         if(contrasenia != null){
             try{
-                db.execSQL("INSERT INTO USUARIO (nombreUsu, tipoCuenta, contraseña) VALUES ('" +
-                        usuario + "', '" + tipoCuenta  + "', '" + contrasenia + "')");
+                db.execSQL("INSERT INTO USUARIO (nombreUsu, tipoCuenta, avatar, contraseña) VALUES ('" +
+                        usuario + "', '" + tipoCuenta + "', '" + avatar + "', '" + contrasenia + "')");
             }catch (Exception e){
                 System.out.println("Usuario ya registrado");
                 return "Usuario ya registrado";
@@ -160,8 +163,8 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
             }
         }else{
             try{
-                db.execSQL("INSERT INTO USUARIO (nombreUsu, tipoCuenta) VALUES ('" +
-                        usuario + "', '" + tipoCuenta +"')");
+                db.execSQL("INSERT INTO USUARIO (nombreUsu, tipoCuenta, avatar) VALUES ('" +
+                        usuario + "', '" + tipoCuenta + "', '" + avatar + "')");
             }catch (Exception e){
                 System.out.println("Usuario ya registrado");
                 return "Usuario ya registrado";
@@ -223,5 +226,12 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
             }while (cursorEs.moveToNext());
         }
         return estadisticas;
+    }
+
+    @Override
+    public void eliminarEstadisticas() {
+        db = dbHelper.getWritableDatabase();
+        db.delete("ESTADISTICAS", null, null);
+        db.close();
     }
 }

@@ -26,6 +26,9 @@ import com.example.maestromultiplicacion20.ui.estadisticas.AdaptadorUsuarios;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragmentos para enviar las estadísticas a un correo electronico
+ */
 public class FragmentEnviar extends Fragment implements Spinner.OnItemSelectedListener{
     private Button btnEstadisticas;
     private EditText edEmail;

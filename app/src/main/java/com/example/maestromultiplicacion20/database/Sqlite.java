@@ -6,9 +6,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.maestromultiplicacion20.R;
 
+/**
+ * Clase para crear la base de datos de SQLite
+ */
 public class Sqlite extends SQLiteOpenHelper {
     private static final String NOMBRE_BASE_DE_DATOS = "EstadisticasDatabases.db";
-    private static final int VERSION_BASE_DE_DATOS = 16;
+    private static final int VERSION_BASE_DE_DATOS = 27;
     public Sqlite(Context context) {
         super(context, NOMBRE_BASE_DE_DATOS, null, VERSION_BASE_DE_DATOS);
     }
@@ -23,9 +26,9 @@ public class Sqlite extends SQLiteOpenHelper {
                 "avatar, " +
                 "contraseña " + ")");
         // Insertar usuarios de prueba
-        insertarUsuario(sqLiteDatabase, "Usuario1", "usuario", R.drawable.icons8_usuario_50, "");
-        insertarUsuario(sqLiteDatabase, "Usuario2", "usuario", R.drawable.icons8_usuario_50, "");
-        insertarUsuario(sqLiteDatabase, "Mami", "administrador", R.drawable.icons8_usuario_50, "1234");
+        insertarUsuario(sqLiteDatabase, "Usuario1", "usuario", R.drawable.icons8_usuario_48__1_, "");
+        insertarUsuario(sqLiteDatabase, "Usuario2", "usuario", R.drawable.icons8_usuario_48__1_, "");
+        insertarUsuario(sqLiteDatabase, "Mami", "administrador", R.drawable.icons8_usuario_48__1_, "1234");
 
         // Crear la tabla Estadisticas con clave foránea a la tabla Usuario
         sqLiteDatabase.execSQL("CREATE TABLE ESTADISTICAS " + "(" +
