@@ -36,11 +36,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="164dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="204dp"
         android:layout_marginEnd="171dp"
         android:text="Enviar estadísticas"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +48,7 @@
         android:id="@+id/spinnerUsuario"
         android:layout_width="362dp"
         android:layout_height="49dp"
-        android:layout_marginTop="246dp"
+        android:layout_marginTop="47dp"
         android:layout_marginEnd="33dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />

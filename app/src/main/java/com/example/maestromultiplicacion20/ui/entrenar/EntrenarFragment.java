@@ -100,7 +100,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             if(MainActivity.getIndiceMultiplicacion() != 0 && MainActivity.getIndiceMultiplicacion() != 10){
                 String multiplicacionSinHacer = MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion());
                 System.out.println("Aqui me he quedado: " + multiplicacionSinHacer);
-                multiplicacionFallidas.add(multiplicacionSinHacer+"=cambio de tabla");
+                multiplicacionFallidas.add(multiplicacionSinHacer+"=Cambio");
                 estadisticasDAO.insertarEstadisticas(String.valueOf(porcetajeDeExito), String.valueOf(tablaSeleccionadaEnviar), multiplicacionFallidas, estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), MainActivity.getAvatares().get(9));
             }
             inicializarAvatar(MainActivity.getAvatar());

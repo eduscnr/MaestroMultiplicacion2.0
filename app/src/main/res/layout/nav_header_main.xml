@@ -19,10 +19,11 @@
         android:id="@+id/textViewUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="7dp"
         android:text="Android Knowledge"
         android:textColor="@color/white"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"/>
+        android:textStyle="bold" />
 
 
 </LinearLayout>

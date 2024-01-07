@@ -61,12 +61,20 @@
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
+            <TextView
+                android:id="@+id/tvInformacion"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textAlignment="center"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:textColor="@color/multiplicacionErronea"/>
 
             <Button
                 android:id="@+id/btnIngresar"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/purple"
                 android:text="@string/ingresar"
                 android:textSize="18sp"
