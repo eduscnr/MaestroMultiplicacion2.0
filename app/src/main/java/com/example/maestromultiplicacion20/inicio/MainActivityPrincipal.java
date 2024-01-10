@@ -2,6 +2,7 @@ package com.example.maestromultiplicacion20.inicio;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -32,6 +33,8 @@ public class MainActivityPrincipal extends AppCompatActivity {
     private RecyclerView recyclerView;
     private static List<Usuario> usuarios;
     private static Usuario usuarioLogeado;
+    //Variable para enviar estadisticas cuando el servicio a sido destruido, es decir, cuando se a cerrado la aplicación
+    private static boolean enviarEstadisticas = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -158,5 +161,22 @@ public class MainActivityPrincipal extends AppCompatActivity {
 
     public static List<Usuario> getUsuarios() {
         return usuarios;
+    }
+
+    public static boolean isEnviarEstadisticas() {
+        return enviarEstadisticas;
+    }
+
+    public static void setEnviarEstadisticas(boolean enviarEstadisticas) {
+        MainActivityPrincipal.enviarEstadisticas = enviarEstadisticas;
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(!enviarEstadisticas){
+            //Registrar los datos en la base de datos porque se ha cerrado la aplicacion de golpe.
+            System.out.println("Enviar estadisitcas porque se ha cerrado la aplicacion de golpe");
+        }
+        super.onDestroy();
     }
 }

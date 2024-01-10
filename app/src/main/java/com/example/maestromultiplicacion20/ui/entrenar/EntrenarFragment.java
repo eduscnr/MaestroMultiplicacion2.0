@@ -63,6 +63,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             porcetajeDeExito = savedInstanceState.getInt("porcentajeExito");
             progreso = savedInstanceState.getInt("progreso");
             enviarEstadisticas = savedInstanceState.getBoolean("enviarEstadisticas");
+            System.out.println("Variable enviarEstadisticas: " + enviarEstadisticas);
             tablaSeleccionadaEnviar = savedInstanceState.getInt("TablaSeleEnvi");
         }
         binding = FragmentEntrenarBinding.inflate(inflater, container, false);
@@ -97,9 +98,8 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         if (MainActivity.getTablaTemporalSeleccionada() != MainActivity.getTablaMultiplicar()) {
             enviarEstadisticas = true;
             //Ingreso las estadisticas si el usuario ha cambia de fragmento.
-            if(MainActivity.getIndiceMultiplicacion() != 0 && MainActivity.getIndiceMultiplicacion() != 10){
+            if(MainActivity.getIndiceMultiplicacion() != 0 && MainActivity.getIndiceMultiplicacion() != 10 && MainActivity.getMultiplicaciones().size() > 0){
                 String multiplicacionSinHacer = MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion());
-                System.out.println("Aqui me he quedado: " + multiplicacionSinHacer);
                 multiplicacionFallidas.add(multiplicacionSinHacer+"=Cambio");
                 estadisticasDAO.insertarEstadisticas(String.valueOf(porcetajeDeExito), String.valueOf(tablaSeleccionadaEnviar), multiplicacionFallidas, estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), MainActivity.getAvatares().get(9));
             }
@@ -115,6 +115,9 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onDestroyView() {
         MainActivity.setTablaTemporalSeleccionada(MainActivity.getTablaMultiplicar());
+        MainActivity.setPorcentajeExito(porcetajeDeExito);
+        MainActivity.setMultiplicacionesFallidas(multiplicacionFallidas);
+        MainActivity.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
         super.onDestroyView();
     }
     @Override
@@ -155,9 +158,10 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             multiplicacionActual = MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion() - 1);
             textViewMultiplicacion.setText(multiplicacionActual);
             //Si el boton de validar (Ok) habilitado envia la estadisticas.
-            if(enviarEstadisticas){
+            if(enviarEstadisticas && estadisticasDAO != null){
                 estadisticasDAO.insertarEstadisticas(String.valueOf(porcetajeDeExito), String.valueOf(MainActivity.getTablaMultiplicar()), multiplicacionFallidas, estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), MainActivity.getAvatares().get(9));
                 enviarEstadisticas = false;
+                MainActivityPrincipal.setEnviarEstadisticas(true);
             }
             //Si el indice del avatar a llegado al 10 porque hay 10 imagenes significa que a conseguido completar el avatar.
             if(MainActivity.getIndiceAvatar() == 10){
@@ -246,6 +250,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     private void entrenar(String dificultad, int tabla) {
         MainActivity.getMultiplicaciones().clear();
         MainActivity.setIndiceMultiplicacion(0);
+        MainActivityPrincipal.setEnviarEstadisticas(false);
         switch (dificultad) {
             case "Fácil":
                 for (int i = 1; i <= 10; i++) {
@@ -329,5 +334,13 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         outState.putInt("progreso", progreso);
         outState.putBoolean("enviarEstadisticas", enviarEstadisticas);
         outState.putInt("TablaSeleEnvi", tablaSeleccionadaEnviar);
+    }
+
+    @Override
+    public void onPause() {
+        if(enviarEstadisticas){
+            System.out.println("Vista fragment pausada");
+        }
+        super.onPause();
     }
 }

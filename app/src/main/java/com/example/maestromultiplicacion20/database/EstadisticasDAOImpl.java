@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 
 import com.example.maestromultiplicacion20.MainActivity;
+import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.modelo.Estadisticas;
 import com.example.maestromultiplicacion20.modelo.Usuario;
@@ -88,7 +89,7 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
     @Override
     public boolean insertarEstadisticas(String porcentaje, String tabla, List<String> tablasFallidas, int idUsuario, int avatarJuagado) {
         String multiplicacionFallidaS = "";
-        if(!tablasFallidas.isEmpty()){
+        if(tablasFallidas != null &&!tablasFallidas.isEmpty()){
             if(tablasFallidas.size() > 1){
                 for (int i = 0; i<tablasFallidas.size();i++){
                     if(i == 0){
@@ -102,10 +103,12 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
                 multiplicacionFallidaS = tablasFallidas.get(0);
             }
         }
-        db = dbHelper.getReadableDatabase();
-        db.execSQL("INSERT INTO ESTADISTICAS (porcentaje, tabla, tablas_fallidas, fecha, avatarJugado, id_usuario) VALUES (" +
-                porcentaje + ", " + tabla + ", '" + multiplicacionFallidaS + "', '" + MainActivity.convertirFeche(new GregorianCalendar()) + "', " + avatarJuagado + ", " + idUsuario + ")");
-        db.close();
+        if(!MainActivityPrincipal.isEnviarEstadisticas()){
+            db = dbHelper.getReadableDatabase();
+            db.execSQL("INSERT INTO ESTADISTICAS (porcentaje, tabla, tablas_fallidas, fecha, avatarJugado, id_usuario) VALUES (" +
+                    porcentaje + ", " + tabla + ", '" + multiplicacionFallidaS + "', '" + MainActivity.convertirFeche(new GregorianCalendar()) + "', " + avatarJuagado + ", " + idUsuario + ")");
+            db.close();
+        }
         return false;
     }
 

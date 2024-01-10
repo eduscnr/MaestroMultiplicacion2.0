@@ -1,5 +1,6 @@
 package com.example.maestromultiplicacion20;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,11 +9,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
+import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.modelo.Estadisticas;
+import com.example.maestromultiplicacion20.servicios.MyService;
 import com.example.maestromultiplicacion20.ui.logros.FragmentLogros;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
@@ -43,23 +48,28 @@ public class MainActivity extends AppCompatActivity{
     private static int tablaTemporalSeleccionada;
     private static int indiceAvatar;
     private static List<Integer>avatares;
-    private static List<Estadisticas> estadisticas;
     private static List<Integer> avataresColeccionables;
     private static List<Integer> avataresFinales = new ArrayList<>(Arrays.asList(R.drawable.superman10, R.drawable.batman10, R.drawable.ironman10, R.drawable.spiderman10, R.drawable.thor10));
-    private static GregorianCalendar horario;
     private Menu menu;
+    //Para guardas las estadisticas en la base de datos cuando le da para atras en el dispositivo o destruye la actividad
+    private static int porcentajeExito;
+    private static int tablaSeleccionadoEnviar;
+    private static List<String> multiplicacionesFallidas;
+    private EstadisticasDAO estadisticasDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         multiplicaciones = new ArrayList<>();
         avatares = new ArrayList<>();
-        estadisticas = new ArrayList<>();
         avataresColeccionables = new ArrayList<>();
+        multiplicacionesFallidas = new ArrayList<>();
+        estadisticasDAO = new EstadisticasDAOImpl(this);
         setTablaMultiplicar(2);
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
@@ -148,10 +158,6 @@ public class MainActivity extends AppCompatActivity{
         return multiplicaciones;
     }
 
-    public static void setMultiplicaciones(List<String> multiplicaciones) {
-        MainActivity.multiplicaciones = multiplicaciones;
-    }
-
     public static int getIndiceMultiplicacion() {
         return indiceMultiplicacion;
     }
@@ -172,20 +178,12 @@ public class MainActivity extends AppCompatActivity{
         return avatares;
     }
 
-    public static void setAvatares(List<Integer> avatares) {
-        MainActivity.avatares = avatares;
-    }
-
     public static int getIndiceAvatar() {
         return indiceAvatar;
     }
 
     public static void setIndiceAvatar(int indiceAvatar) {
         MainActivity.indiceAvatar = indiceAvatar;
-    }
-
-    public static List<Estadisticas> getEstadisticas() {
-        return estadisticas;
     }
 
     public static List<Integer> getAvataresColeccionables() {
@@ -195,16 +193,35 @@ public class MainActivity extends AppCompatActivity{
     public static List<Integer> getAvataresFinales() {
         return avataresFinales;
     }
-
-    public static void setAvataresFinales(List<Integer> avataresFinales) {
-        MainActivity.avataresFinales = avataresFinales;
-    }
-
-    public static GregorianCalendar getHorario() {
-        return horario;
-    }
     public static String convertirFeche(GregorianCalendar calendar){
         return (calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1)
                 + "/" + calendar.get(Calendar.YEAR));
+    }
+
+    public static void setPorcentajeExito(int porcentajeExito) {
+        MainActivity.porcentajeExito = porcentajeExito;
+    }
+
+    public static void setTablaSeleccionadoEnviar(int tablaSeleccionadoEnviar) {
+        MainActivity.tablaSeleccionadoEnviar = tablaSeleccionadoEnviar;
+    }
+
+    public static void setMultiplicacionesFallidas(List<String> multiplicacionesFallidas) {
+        MainActivity.multiplicacionesFallidas = multiplicacionesFallidas;
+    }
+    @Override
+    protected void onDestroy() {
+        if(indiceMultiplicacion != 0 && multiplicaciones.size() > 0 && multiplicaciones.size() > 10){
+            String multiplicacionSinHacer = multiplicaciones.get(indiceMultiplicacion);
+            multiplicacionesFallidas.add(multiplicacionSinHacer+"=Cambió");
+            estadisticasDAO.insertarEstadisticas(String.valueOf(porcentajeExito), String.valueOf(tablaSeleccionadoEnviar), multiplicacionesFallidas,
+                    estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), avatares.get(9));
+            MainActivityPrincipal.setEnviarEstadisticas(true);
+        }
+        if (!MainActivityPrincipal.isEnviarEstadisticas() && multiplicaciones.size() > 0 && multiplicaciones.size() > 10){
+            //Aquí envio las datos cuando la aplicacion se ha destruido, es decir,
+            // recuperar los datos de esta actividad que tenga y enviar a la actividad principal
+        }
+        super.onDestroy();
     }
 }
