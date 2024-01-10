@@ -13,11 +13,13 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
+import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.database.Sqlite;
 import com.example.maestromultiplicacion20.modelo.Usuario;
+import com.example.maestromultiplicacion20.servicios.MyService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +36,12 @@ public class MainActivityPrincipal extends AppCompatActivity {
     private static List<Usuario> usuarios;
     private static Usuario usuarioLogeado;
     //Variable para enviar estadisticas cuando el servicio a sido destruido, es decir, cuando se a cerrado la aplicación
+    private static List<String> multiplicacionesFallidas;
+    private static int porcentajeExito;
+    private static int tablaSeleccionada;
+    private static int avatarJugado;
     private static boolean enviarEstadisticas = false;
+    private Intent servicio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,11 +178,50 @@ public class MainActivityPrincipal extends AppCompatActivity {
         MainActivityPrincipal.enviarEstadisticas = enviarEstadisticas;
     }
 
+    public static List<String> getMultiplicacionesFallidas() {
+        return multiplicacionesFallidas;
+    }
+
+    public static void setMultiplicacionesFallidas(List<String> multiplicacionesFallidas) {
+        MainActivityPrincipal.multiplicacionesFallidas = multiplicacionesFallidas;
+    }
+
+    public static int getPorcentajeExito() {
+        return porcentajeExito;
+    }
+
+    public static void setPorcentajeExito(int porcentajeExito) {
+        MainActivityPrincipal.porcentajeExito = porcentajeExito;
+    }
+
+    public static int getTablaSeleccionada() {
+        return tablaSeleccionada;
+    }
+
+    public static void setTablaSeleccionada(int tablaSeleccionada) {
+        MainActivityPrincipal.tablaSeleccionada = tablaSeleccionada;
+    }
+
+    public static int getAvatarJugado() {
+        return avatarJugado;
+    }
+
+    public static void setAvatarJugado(int avatarJugado) {
+        MainActivityPrincipal.avatarJugado = avatarJugado;
+    }
+
     @Override
     protected void onDestroy() {
+        System.out.println("Enviar estadisitcas porque se ha cerrado la aplicacion de golpe");
         if(!enviarEstadisticas){
             //Registrar los datos en la base de datos porque se ha cerrado la aplicacion de golpe.
-            System.out.println("Enviar estadisitcas porque se ha cerrado la aplicacion de golpe");
+            servicio = new Intent(this, MyService.class);
+            servicio.putExtra("multiplicacionesFallidas", new ArrayList<>(multiplicacionesFallidas));
+            servicio.putExtra("porcentajeExito", porcentajeExito);
+            servicio.putExtra("tablaSeleccionada", tablaSeleccionada);
+            servicio.putExtra("usuarioLogeado", MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
+            servicio.putExtra("avatarJugado", MainActivity.getAvatares().get(9));
+            startService(servicio);
         }
         super.onDestroy();
     }

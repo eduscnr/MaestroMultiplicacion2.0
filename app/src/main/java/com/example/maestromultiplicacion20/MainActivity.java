@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this, MyService.class);
-        startService(intent);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -211,16 +209,12 @@ public class MainActivity extends AppCompatActivity{
     }
     @Override
     protected void onDestroy() {
-        if(indiceMultiplicacion != 0 && multiplicaciones.size() > 0 && multiplicaciones.size() > 10){
+        if(indiceMultiplicacion != 0 && multiplicaciones.size() > 0 && multiplicaciones.size() != 10){
             String multiplicacionSinHacer = multiplicaciones.get(indiceMultiplicacion);
             multiplicacionesFallidas.add(multiplicacionSinHacer+"=Cambió");
             estadisticasDAO.insertarEstadisticas(String.valueOf(porcentajeExito), String.valueOf(tablaSeleccionadoEnviar), multiplicacionesFallidas,
                     estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), avatares.get(9));
             MainActivityPrincipal.setEnviarEstadisticas(true);
-        }
-        if (!MainActivityPrincipal.isEnviarEstadisticas() && multiplicaciones.size() > 0 && multiplicaciones.size() > 10){
-            //Aquí envio las datos cuando la aplicacion se ha destruido, es decir,
-            // recuperar los datos de esta actividad que tenga y enviar a la actividad principal
         }
         super.onDestroy();
     }

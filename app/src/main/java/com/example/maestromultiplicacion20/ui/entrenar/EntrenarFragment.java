@@ -1,5 +1,6 @@
 package com.example.maestromultiplicacion20.ui.entrenar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.databinding.FragmentEntrenarBinding;
 import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
+import com.example.maestromultiplicacion20.servicios.MyService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +65,6 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             porcetajeDeExito = savedInstanceState.getInt("porcentajeExito");
             progreso = savedInstanceState.getInt("progreso");
             enviarEstadisticas = savedInstanceState.getBoolean("enviarEstadisticas");
-            System.out.println("Variable enviarEstadisticas: " + enviarEstadisticas);
             tablaSeleccionadaEnviar = savedInstanceState.getInt("TablaSeleEnvi");
         }
         binding = FragmentEntrenarBinding.inflate(inflater, container, false);
@@ -110,15 +111,6 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         //Muestro el porcentaje en un textView
         procentaje.setText(progreso + "%");
         return root;
-    }
-
-    @Override
-    public void onDestroyView() {
-        MainActivity.setTablaTemporalSeleccionada(MainActivity.getTablaMultiplicar());
-        MainActivity.setPorcentajeExito(porcetajeDeExito);
-        MainActivity.setMultiplicacionesFallidas(multiplicacionFallidas);
-        MainActivity.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
-        super.onDestroyView();
     }
     @Override
     public void onClick(View view) {
@@ -335,11 +327,20 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         outState.putBoolean("enviarEstadisticas", enviarEstadisticas);
         outState.putInt("TablaSeleEnvi", tablaSeleccionadaEnviar);
     }
-
+    @Override
+    public void onDestroyView() {
+        MainActivity.setTablaTemporalSeleccionada(MainActivity.getTablaMultiplicar());
+        MainActivity.setPorcentajeExito(porcetajeDeExito);
+        MainActivity.setMultiplicacionesFallidas(multiplicacionFallidas);
+        MainActivity.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
+        super.onDestroyView();
+    }
     @Override
     public void onPause() {
         if(enviarEstadisticas){
-            System.out.println("Vista fragment pausada");
+            MainActivityPrincipal.setMultiplicacionesFallidas(multiplicacionFallidas);
+            MainActivityPrincipal.setPorcentajeExito(porcetajeDeExito);
+            MainActivityPrincipal.setTablaSeleccionada(tablaSeleccionadaEnviar);
         }
         super.onPause();
     }

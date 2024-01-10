@@ -103,11 +103,13 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
                 multiplicacionFallidaS = tablasFallidas.get(0);
             }
         }
-        if(!MainActivityPrincipal.isEnviarEstadisticas()){
+
+        if(MainActivityPrincipal.isEnviarEstadisticas() == false) {
             db = dbHelper.getReadableDatabase();
             db.execSQL("INSERT INTO ESTADISTICAS (porcentaje, tabla, tablas_fallidas, fecha, avatarJugado, id_usuario) VALUES (" +
                     porcentaje + ", " + tabla + ", '" + multiplicacionFallidaS + "', '" + MainActivity.convertirFeche(new GregorianCalendar()) + "', " + avatarJuagado + ", " + idUsuario + ")");
             db.close();
+            System.out.println("Inserción realizada");
         }
         return false;
     }
