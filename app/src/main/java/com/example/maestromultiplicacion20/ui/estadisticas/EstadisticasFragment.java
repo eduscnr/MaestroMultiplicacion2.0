@@ -17,6 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 
 import com.example.maestromultiplicacion20.R;
+import com.example.maestromultiplicacion20.adaptadores.AdaptadorFecha;
+import com.example.maestromultiplicacion20.adaptadores.AdaptadorTablas;
+import com.example.maestromultiplicacion20.adaptadores.AdaptadorUsuarios;
 import com.example.maestromultiplicacion20.databinding.FragmentEstadisticasBinding;
 import com.example.maestromultiplicacion20.modelo.Estadisticas;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;

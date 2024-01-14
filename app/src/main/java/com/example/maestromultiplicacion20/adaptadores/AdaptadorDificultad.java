@@ -1,4 +1,4 @@
-package com.example.maestromultiplicacion20.ui.configuracion;
+package com.example.maestromultiplicacion20.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;

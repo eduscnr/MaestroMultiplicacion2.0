@@ -19,7 +19,7 @@
             android:name=".servicios.MyService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false"></service>
+            android:stopWithTask="false"/>
 
         <activity
             android:name=".inicio.MainActivitySingIn"

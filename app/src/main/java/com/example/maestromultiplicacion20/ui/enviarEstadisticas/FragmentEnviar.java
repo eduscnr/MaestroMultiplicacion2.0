@@ -21,7 +21,7 @@ import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.databinding.FragmentEnviarBinding;
 import com.example.maestromultiplicacion20.modelo.Estadisticas;
 import com.example.maestromultiplicacion20.modelo.Usuario;
-import com.example.maestromultiplicacion20.ui.estadisticas.AdaptadorUsuarios;
+import com.example.maestromultiplicacion20.adaptadores.AdaptadorUsuarios;
 
 import java.util.ArrayList;
 import java.util.List;

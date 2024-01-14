@@ -42,4 +42,9 @@
         android:name="com.example.maestromultiplicacion20.ui.contactosFavoritos.FragmentContactosFav"
         android:label="@string/menu_contactosFavoritos"
         tools:layout="@layout/fragment_contactos_fav" />
+    <fragment
+        android:id="@+id/nav_eliminar"
+        android:name="com.example.maestromultiplicacion20.ui.eliminarUsuarios.FragmentEliminarUsuario"
+        android:label="@string/menu_eliminarUsuarios"
+        tools:layout="@layout/fragment_eliminar_usuario" />
 </navigation>

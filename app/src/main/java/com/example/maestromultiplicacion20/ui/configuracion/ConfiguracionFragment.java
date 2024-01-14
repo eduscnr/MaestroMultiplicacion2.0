@@ -20,6 +20,8 @@ import androidx.gridlayout.widget.GridLayout;
 
 import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.R;
+import com.example.maestromultiplicacion20.adaptadores.AdaptadorAvatares;
+import com.example.maestromultiplicacion20.adaptadores.AdaptadorDificultad;
 import com.example.maestromultiplicacion20.databinding.FragmentConfiguracionBinding;
 
 import java.util.Random;

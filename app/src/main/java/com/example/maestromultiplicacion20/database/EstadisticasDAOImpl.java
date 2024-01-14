@@ -239,4 +239,9 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
         db.delete("ESTADISTICAS", null, null);
         db.close();
     }
+
+    @Override
+    public void eliminarUsuarios() {
+
+    }
 }

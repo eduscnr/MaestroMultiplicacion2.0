@@ -2,7 +2,6 @@ package com.example.maestromultiplicacion20.inicio;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,12 +12,13 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.ViewGroup;
 
-import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.R;
+import com.example.maestromultiplicacion20.adaptadores.UsuarioPersonalizadoAdapter;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.database.Sqlite;
 import com.example.maestromultiplicacion20.modelo.Usuario;
+import com.example.maestromultiplicacion20.modelo.UsuarioPersonalizado;
 import com.example.maestromultiplicacion20.servicios.MyService;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class MainActivityPrincipal extends AppCompatActivity {
     private static int tablaSeleccionada;
     private static int avatarJugado;
     private static boolean enviarEstadisticas = false;
-    private Intent servicio;
+    private static Intent servicio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,19 +210,24 @@ public class MainActivityPrincipal extends AppCompatActivity {
         MainActivityPrincipal.avatarJugado = avatarJugado;
     }
 
+    public static void setServicio(Intent servicio) {
+        MainActivityPrincipal.servicio = servicio;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public static Intent getServicio() {
+        return servicio;
+    }
+
     @Override
     protected void onDestroy() {
         System.out.println("Enviar estadisitcas porque se ha cerrado la aplicacion de golpe");
-        if(!enviarEstadisticas){
-            //Registrar los datos en la base de datos porque se ha cerrado la aplicacion de golpe.
-            servicio = new Intent(this, MyService.class);
-            servicio.putExtra("multiplicacionesFallidas", new ArrayList<>(multiplicacionesFallidas));
-            servicio.putExtra("porcentajeExito", porcentajeExito);
-            servicio.putExtra("tablaSeleccionada", tablaSeleccionada);
-            servicio.putExtra("usuarioLogeado", MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
-            servicio.putExtra("avatarJugado", MainActivity.getAvatares().get(9));
-            startService(servicio);
-        }
+        servicio = new Intent(this, MyService.class);
+        startService(servicio);
         super.onDestroy();
     }
 }

@@ -15,11 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.ScaleAnimation;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.maestromultiplicacion20.R;
@@ -37,6 +40,7 @@ import java.util.List;
 public class FragmentContactos extends Fragment implements ContactosOnClick {
     private FragmentContactosBinding binding;
     private RecyclerView recyclerView;
+    //private EditText editText;
     private ActivityResultLauncher<String> requestReadContactsPermissionLauncher;
     private ActivityResultLauncher<String> requestWriteContactsPermissionLauncher;
     private AdaptadorContactos adaptadorContactos;
@@ -80,7 +84,7 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
      * Método para obtener los contacto de la agenda del movil a traves de una URI y de un Contents Providers
      * @return devuelve una lista de contactos
      */
-    private List<Contacto> obtenerContactos() {
+    private List<Contacto> obtenerContactos(String nombreBusqueda) {
         List<Contacto> devolver = new ArrayList<>();
         String[] columnas = new String[]{
                 ContactsContract.Data.DISPLAY_NAME,
@@ -88,13 +92,16 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
                 ContactsContract.CommonDataKinds.Phone.STARRED
         };
+        String seleccion = ContactsContract.Data.DISPLAY_NAME + " LIKE ?";
+        String[] argumentosSeleccion = new String[]{"%" + nombreBusqueda + "%"};
+
         //Uso un cursor para recorrer la URI, lo ordeno de forma descender los contactos favoritos y los que no sea favoritos
         //lo ordeno de forma ascendente
         Cursor cursor = requireContext().getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 columnas,
-                null,
-                null,
+                seleccion,
+                argumentosSeleccion,
                 ContactsContract.CommonDataKinds.Phone.STARRED + " DESC, " +
                         ContactsContract.Data.DISPLAY_NAME + " ASC"
         );
@@ -115,11 +122,22 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
      * Método para mostar los contactos en el RecyclerView con su CardView y el Adaptador
      */
     private void mostrarContactos() {
-        contactos = obtenerContactos();
+        contactos = obtenerContactos("");
         adaptadorContactos = new AdaptadorContactos(contactos, this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adaptadorContactos);
+        binding.editTextContacto.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                contactos = obtenerContactos(binding.editTextContacto.getText().toString());
+                adaptadorContactos = new AdaptadorContactos(contactos, null);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                recyclerView.setAdapter(adaptadorContactos);
+                return true;
+            }
+        });
     }
 
     /**

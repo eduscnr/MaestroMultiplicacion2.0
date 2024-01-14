@@ -13,6 +13,8 @@
     <string name="menu_enviar">Enviar estadísticas</string>
     <string name="menu_contactos">Contactos</string>
     <string name="menu_contactosFavoritos">Contactos favoritos</string>
+    <string name="menu_salir">Cerra sesión</string>
+    <string name="menu_eliminarUsuarios">Eliminar usuarios</string>
     <string name="eliminarEsta">Eliminar estadísticas</string>
 
     <string name="dificultad">Selecciona la dificultad</string>

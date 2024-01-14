@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity{
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_configuracion, R.id.nav_entrenar, R.id.nav_estadisticas, R.id.nav_logros, R.id.nav_enviar, R.id.nav_contactos, R.id.nav_contactosFavoritos)
+                R.id.nav_configuracion, R.id.nav_entrenar, R.id.nav_estadisticas, R.id.nav_logros,
+                R.id.nav_enviar, R.id.nav_contactos, R.id.nav_contactosFavoritos, R.id.nav_salir, R.id.nav_eliminar)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -94,11 +95,14 @@ public class MainActivity extends AppCompatActivity{
         MenuItem menuEnviarEsta = menu.findItem(R.id.nav_enviar);
         MenuItem menuContactos = menu.findItem(R.id.nav_contactos);
         MenuItem menuContactosFav = menu.findItem(R.id.nav_contactosFavoritos);
+        MenuItem menuSalir = menu.findItem(R.id.nav_salir);
+        MenuItem menuEliminar = menu.findItem(R.id.nav_eliminar);
         if(MainActivityPrincipal.getUsuarioLogeado().getTipoCuenta().equalsIgnoreCase("usuario")){
             menuEstadisticas.setVisible(false);
             menuEnviarEsta.setVisible(false);
             menuContactos.setVisible(false);
             menuContactosFav.setVisible(false);
+            menuEliminar.setVisible(false);
             menuEntrenar.setVisible(true);
             menConfiguracion.setVisible(true);
 
@@ -108,11 +112,26 @@ public class MainActivity extends AppCompatActivity{
             menuEnviarEsta.setVisible(true);
             menuContactos.setVisible(true);
             menuContactosFav.setVisible(true);
+            menuEliminar.setVisible(true);
             menuEntrenar.setVisible(false);
             menConfiguracion.setVisible(false);
             menuLogos.setVisible(false);
             navController.navigate(R.id.nav_estadisticas);
         }
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+        menuSalir.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                System.out.println("Le he hecho click");
+                finish();
+                return true;
+            }
+        });
     }
     @Override
     public boolean onSupportNavigateUp() {
@@ -207,9 +226,12 @@ public class MainActivity extends AppCompatActivity{
     public static void setMultiplicacionesFallidas(List<String> multiplicacionesFallidas) {
         MainActivity.multiplicacionesFallidas = multiplicacionesFallidas;
     }
+    //Revision del codigo para atras puede ser que no sirva, REVISA
     @Override
     protected void onDestroy() {
-        if(indiceMultiplicacion != 0 && multiplicaciones.size() > 0 && multiplicaciones.size() != 10){
+        System.out.println("Actividad Navegation finalizada");
+        if(indiceMultiplicacion != 0 && multiplicaciones.size() > 0 && !MainActivityPrincipal.isEnviarEstadisticas()){
+            System.out.println("le di para atrar y se destruyo, asi que envia estadisticas");
             String multiplicacionSinHacer = multiplicaciones.get(indiceMultiplicacion);
             multiplicacionesFallidas.add(multiplicacionSinHacer+"=Cambió");
             estadisticasDAO.insertarEstadisticas(String.valueOf(porcentajeExito), String.valueOf(tablaSeleccionadoEnviar), multiplicacionesFallidas,

@@ -66,6 +66,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             progreso = savedInstanceState.getInt("progreso");
             enviarEstadisticas = savedInstanceState.getBoolean("enviarEstadisticas");
             tablaSeleccionadaEnviar = savedInstanceState.getInt("TablaSeleEnvi");
+            System.out.println("paso por aqui cuando me dan para atras :)");
         }
         binding = FragmentEntrenarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -280,6 +281,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     private void inicializarAvatar(int posicionAvatar) {
         MainActivity.getAvatares().clear();
         multiplicacionFallidas = new ArrayList<>();
+        MainActivityPrincipal.setEnviarEstadisticas(false);
         MainActivity.setIndiceAvatar(0);
         switch (posicionAvatar) {
             case 0:
@@ -329,6 +331,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     }
     @Override
     public void onDestroyView() {
+        System.out.println("Destruyo en fargmento Entrenar");
         MainActivity.setTablaTemporalSeleccionada(MainActivity.getTablaMultiplicar());
         MainActivity.setPorcentajeExito(porcetajeDeExito);
         MainActivity.setMultiplicacionesFallidas(multiplicacionFallidas);
@@ -337,10 +340,18 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     }
     @Override
     public void onPause() {
+        System.out.println("Fragmento pausado");
+        System.out.println(enviarEstadisticas);
         if(enviarEstadisticas){
-            MainActivityPrincipal.setMultiplicacionesFallidas(multiplicacionFallidas);
-            MainActivityPrincipal.setPorcentajeExito(porcetajeDeExito);
-            MainActivityPrincipal.setTablaSeleccionada(tablaSeleccionadaEnviar);
+            MainActivityPrincipal.setServicio(new Intent(requireContext(), MyService.class));
+            if(multiplicacionFallidas != null){
+                MainActivityPrincipal.getServicio().putStringArrayListExtra("multiplicacionesFallidas", new ArrayList<>(multiplicacionFallidas));
+            }
+            MainActivityPrincipal.getServicio().putExtra("usuarioLogeado",MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
+            MainActivityPrincipal.getServicio().putExtra("tablaSeleccionada", MainActivity.getTablaMultiplicar() == -1 ? 2 : MainActivity.getTablaMultiplicar());
+            MainActivityPrincipal.getServicio().putExtra("avatarJugado", MainActivity.getAvatares().get(9));
+            MainActivityPrincipal.getServicio().putExtra("enviarEstadisticas", MainActivityPrincipal.isEnviarEstadisticas());
+            requireContext().startService(MainActivityPrincipal.getServicio());
         }
         super.onPause();
     }

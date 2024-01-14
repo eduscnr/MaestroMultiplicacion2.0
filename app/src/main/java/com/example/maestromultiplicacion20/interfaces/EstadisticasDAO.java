@@ -77,4 +77,10 @@ public interface EstadisticasDAO {
      * Método para eliminar todas las estadiscas de la base de datos
      */
     public void eliminarEstadisticas();
+
+    /**
+     * Método que elimina un Usuario por su nombre en la base de datos
+     * @param nombre
+     */
+    public void eliminarUsuarios(String nombre);
 }

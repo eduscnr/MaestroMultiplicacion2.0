@@ -1,4 +1,4 @@
-package com.example.maestromultiplicacion20.inicio;
+package com.example.maestromultiplicacion20.adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.R;
+import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
+import com.example.maestromultiplicacion20.inicio.MainActivitySingIn;
+import com.example.maestromultiplicacion20.modelo.UsuarioPersonalizado;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 
 import java.util.List;
@@ -78,7 +81,7 @@ public class UsuarioPersonalizadoAdapter extends RecyclerView.Adapter<UsuarioPer
             if (textView.getText().toString().equalsIgnoreCase("Crear")) {
                 onItemClickListener.onItemButtonClick();
             }else{
-                for (Usuario u:MainActivityPrincipal.getUsuarios()){
+                for (Usuario u: MainActivityPrincipal.getUsuarios()){
                     if(u.getNombreUsuario().equalsIgnoreCase(textView.getText().toString()) && u.getTipoCuenta().equalsIgnoreCase("usuario")){
                         MainActivityPrincipal.setUsuarioLogeado(u);
                         Intent i = new Intent(context, MainActivity.class);

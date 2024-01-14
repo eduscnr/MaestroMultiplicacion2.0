@@ -1,4 +1,4 @@
-package com.example.maestromultiplicacion20.inicio;
+package com.example.maestromultiplicacion20.modelo;
 
 /**
  * Clase para recrear el icono de la pantalla inicial
