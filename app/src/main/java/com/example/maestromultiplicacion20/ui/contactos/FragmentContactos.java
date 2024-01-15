@@ -90,15 +90,17 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
                 ContactsContract.Data.DISPLAY_NAME,
                 ContactsContract.CommonDataKinds.Phone.NUMBER,
                 ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
-                ContactsContract.CommonDataKinds.Phone.STARRED
+                ContactsContract.CommonDataKinds.Phone.STARRED,
+                ContactsContract.CommonDataKinds.Email.ADDRESS
+
         };
-        String seleccion = ContactsContract.Data.DISPLAY_NAME + " LIKE ?";
+        String seleccion = ContactsContract.Data.DISPLAY_NAME + " LIKE ? ";
         String[] argumentosSeleccion = new String[]{"%" + nombreBusqueda + "%"};
 
         //Uso un cursor para recorrer la URI, lo ordeno de forma descender los contactos favoritos y los que no sea favoritos
         //lo ordeno de forma ascendente
         Cursor cursor = requireContext().getContentResolver().query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
                 columnas,
                 seleccion,
                 argumentosSeleccion,
@@ -107,11 +109,11 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
         );
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                String nombre = cursor.getString(0);
+                String email = cursor.getString(0);
                 String numero = cursor.getString(1);
                 int contactId = cursor.getInt(2);
                 boolean favorito = cursor.getInt(3) == 1 ? true : false;
-                devolver.add(new Contacto(nombre, numero, contactId, favorito));
+                devolver.add(new Contacto(email, numero, contactId, favorito));
             }
             cursor.close();
         }
@@ -169,6 +171,11 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
     public void onClickContactos(int posicion) {
         Contacto c = contactos.get(posicion);
         agregarFavorito(c.getId());
+    }
+
+    @Override
+    public void onClickCardView(int posicion) {
+
     }
 
     /**

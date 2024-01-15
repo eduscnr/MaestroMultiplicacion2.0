@@ -37,7 +37,6 @@ public class MyService extends Service {
         avatarJugado = sharedPreferences.getInt("avatarJugado", 0);
         enviarEstadisticas = sharedPreferences.getBoolean("enviarEstadisticas", false);
         tablaSeleccionada = sharedPreferences.getInt("tablaSeleccionada", 0);
-        System.out.println(enviarEstadisticas);
         if(!enviarEstadisticas){
             System.out.println("Envio estadisiticas porque me ha cerrado la app y no se ha enviado nada");
             System.out.println(tablaSeleccionada);

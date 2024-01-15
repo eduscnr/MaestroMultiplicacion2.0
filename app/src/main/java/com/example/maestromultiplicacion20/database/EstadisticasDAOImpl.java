@@ -241,7 +241,7 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
     }
 
     @Override
-    public void eliminarUsuarios() {
+    public void eliminarUsuarios(String nombre) {
         //Primero borrar estadisticas: delete from estadisticas where idusuario=?
         //Segundo borrar usuarios: delete from usuario where idUsurio= ?
     }

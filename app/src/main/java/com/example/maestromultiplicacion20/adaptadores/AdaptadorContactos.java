@@ -9,6 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.maestromultiplicacion20.R;
@@ -42,13 +43,20 @@ public class AdaptadorContactos extends RecyclerView.Adapter<AdaptadorContactos.
         Contacto c = contactos.get(position);
         Animation animation = AnimationUtils.loadAnimation(holder.itemView.getContext(), android.R.anim.slide_in_left);
         holder.nombre.setText(c.getNombre());
-        holder.numero.setText(c.getNumero());
+        holder.numero.setText(c.getEmail());
         if(c.esFavorito()){
             holder.favorito.setImageResource(R.drawable.estrella_amarilla_32);
         }else{
             holder.favorito.setImageResource(R.drawable.icons8_estrella_32);
         }
         ponerLetra(c.getNombre().charAt(0), holder);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int posicion =holder.getAdapterPosition();
+                contactosOnClick.onClickCardView(posicion);
+            }
+        });
         holder.favorito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,12 +161,14 @@ public class AdaptadorContactos extends RecyclerView.Adapter<AdaptadorContactos.
         private TextView numero;
         private ImageView letra;
         private ImageView favorito;
+        private CardView cardView;
         public ContactosViewHolder(View itemView) {
             super(itemView);
             nombre = itemView.findViewById(R.id.tvNombreContacto);
             numero = itemView.findViewById(R.id.tvNumeroContacto);
             letra = itemView.findViewById(R.id.imgLetra);
             favorito = itemView.findViewById(R.id.ibFavorito);
+            cardView = itemView.findViewById(R.id.cardView);
         }
     }
 }

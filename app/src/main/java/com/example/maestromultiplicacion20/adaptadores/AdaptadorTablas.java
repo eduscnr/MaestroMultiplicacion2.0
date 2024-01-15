@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class AdaptadorTablas extends ArrayAdapter<Estadisticas> {
     private List<Estadisticas> estadisticas;
-    private String [] nose;
     private Context mContext;
     public AdaptadorTablas(@NonNull Context context, int resource, List<Estadisticas> estadisticas) {
         super(context, resource, estadisticas);

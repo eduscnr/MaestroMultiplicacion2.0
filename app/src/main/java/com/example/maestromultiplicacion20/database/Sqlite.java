@@ -11,7 +11,7 @@ import com.example.maestromultiplicacion20.R;
  */
 public class Sqlite extends SQLiteOpenHelper {
     private static final String NOMBRE_BASE_DE_DATOS = "EstadisticasDatabases.db";
-    private static final int VERSION_BASE_DE_DATOS = 27;
+    private static final int VERSION_BASE_DE_DATOS = 28;
     public Sqlite(Context context) {
         super(context, NOMBRE_BASE_DE_DATOS, null, VERSION_BASE_DE_DATOS);
     }

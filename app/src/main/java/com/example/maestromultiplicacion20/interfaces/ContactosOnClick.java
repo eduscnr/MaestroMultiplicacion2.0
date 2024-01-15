@@ -9,4 +9,5 @@ public interface ContactosOnClick {
      * @param posicion posicion del RecyclerView clicado
      */
     public void onClickContactos(int posicion);
+    public void onClickCardView(int posicion);
 }

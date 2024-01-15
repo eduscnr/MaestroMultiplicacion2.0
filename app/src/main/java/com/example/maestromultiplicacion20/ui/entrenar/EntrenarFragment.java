@@ -66,7 +66,6 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             progreso = savedInstanceState.getInt("progreso");
             enviarEstadisticas = savedInstanceState.getBoolean("enviarEstadisticas");
             tablaSeleccionadaEnviar = savedInstanceState.getInt("TablaSeleEnvi");
-            System.out.println("paso por aqui cuando me dan para atras :)");
         }
         binding = FragmentEntrenarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -353,6 +352,10 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             MainActivityPrincipal.getServicio().putExtra("enviarEstadisticas", MainActivityPrincipal.isEnviarEstadisticas());
             requireContext().startService(MainActivityPrincipal.getServicio());
         }
+        MainActivity.setTablaTemporalSeleccionada(MainActivity.getTablaMultiplicar());
+        MainActivity.setPorcentajeExito(porcetajeDeExito);
+        MainActivity.setMultiplicacionesFallidas(multiplicacionFallidas);
+        MainActivity.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
         super.onPause();
     }
 }
