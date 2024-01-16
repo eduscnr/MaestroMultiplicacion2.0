@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/login">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="30dp"
+        app:cardMaxElevation="20dp"
+        android:background="@drawable/card_view_personalizado">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/ingresar"
+                android:textAlignment="center"
+                android:textColor="@color/purple"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edtNombreUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/card_view_personalizado"
+                android:drawableLeft="@drawable/icons8_usuario_24"
+                android:drawablePadding="8dp"
+                android:hint="Nombre"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background" />
+
+            <EditText
+                android:inputType="textPassword"
+                android:id="@+id/edtContrasenia"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/card_view_personalizado"
+                android:drawableLeft="@drawable/icons8_contrase_a_24"
+                android:drawablePadding="8dp"
+                android:hint="Contraseña"
+                android:padding="8dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background" />
+            <TextView
+                android:id="@+id/tvInformacion"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:textAlignment="center"
+                android:layout_marginTop="18dp"
+                android:gravity="center"
+                android:textColor="@color/multiplicacionErronea"/>
+
+            <Button
+                android:id="@+id/btnIngresar"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/purple"
+                android:text="@string/ingresar"
+                android:textSize="18sp"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

@@ -28,17 +28,12 @@
         android:label="@string/menu_logros"
         tools:layout="@layout/fragment_logros" />
     <fragment
-        android:id="@+id/nav_enviar"
-        android:name="com.example.maestromultiplicacion20.ui.enviarEstadisticas.FragmentEnviar"
-        android:label="@string/menu_enviar"
-        tools:layout="@layout/fragment_enviar" />
-    <fragment
         android:id="@+id/nav_contactos"
         android:name="com.example.maestromultiplicacion20.ui.contactos.FragmentContactos"
         android:label="@string/menu_contactos"
         tools:layout="@layout/fragment_contactos" />
     <fragment
-        android:id="@+id/nav_contactosFavoritos"
+        android:id="@+id/nav_enviar"
         android:name="com.example.maestromultiplicacion20.ui.contactosFavoritos.FragmentContactosFav"
         android:label="@string/menu_contactosFavoritos"
         tools:layout="@layout/fragment_contactos_fav" />

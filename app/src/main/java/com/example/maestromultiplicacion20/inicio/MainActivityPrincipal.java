@@ -74,7 +74,7 @@ public class MainActivityPrincipal extends AppCompatActivity {
         activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == RESULT_OK) {
+                    if (result.getResultCode() == RESULT_OK)  {
                         Intent data = result.getData();
                         if (data != null) {
                             String usuario = data.getStringExtra("Usuario");

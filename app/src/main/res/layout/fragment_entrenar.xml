@@ -4,29 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.entrenar.EntrenarFragment">
-
-    <EditText
-        android:id="@+id/editTextRespuesta"
-        android:layout_width="162dp"
-        android:layout_height="64dp"
-        android:layout_below="@id/textViewMultiplicacion"
-        android:layout_marginTop="256dp"
-        android:hint="Respuesta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.748"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:background="@drawable/fondoentrenar"
+    tools:context=".ui.entrenar.EntrenarFragment"
+    tools:layout_editor_absoluteX="-1dp"
+    tools:layout_editor_absoluteY="30dp">
 
     <TextView
         android:id="@+id/textViewMultiplicacion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="54dp"
-        android:layout_marginTop="268dp"
+        android:layout_marginTop="321dp"
         android:layout_marginEnd="28dp"
-        android:textSize="30sp"
         android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintEnd_toStartOf="@+id/editTextRespuesta"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,8 +27,8 @@
         android:id="@+id/ivError"
         android:layout_width="26dp"
         android:layout_height="30dp"
-        android:layout_marginStart="244dp"
-        android:layout_marginTop="172dp"
+        android:layout_marginStart="236dp"
+        android:layout_marginTop="216dp"
         android:src="@drawable/icons8_emoji_de_marca_cruzada_48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,8 +37,8 @@
         android:id="@+id/ivCorrecion"
         android:layout_width="26dp"
         android:layout_height="30dp"
-        android:layout_marginTop="212dp"
-        android:layout_marginEnd="139dp"
+        android:layout_marginTop="256dp"
+        android:layout_marginEnd="132dp"
         android:src="@drawable/icons8_comprobado_48"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,11 +47,11 @@
         android:id="@+id/tvError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="216dp"
         android:textColor="@color/multiplicacionErronea"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,21 +59,23 @@
         android:id="@+id/tvCorregir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="256dp"
         android:textColor="@color/multiplicacionAcertada"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout3"
-        android:layout_width="337dp"
-        android:layout_height="211dp"
+        android:layout_width="300dp"
+        android:layout_height="217dp"
         android:layout_marginStart="55dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="38dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextRespuesta">
 
@@ -104,23 +97,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="148dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="149dp"
         android:text="OK"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout3" />
 
-    <TextView
-        android:id="@+id/tvPorcentaje"
-        android:layout_width="40dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="92dp"
-        android:layout_marginEnd="48dp"
-        android:text="0%"
-        android:textAlignment="center"
+    <EditText
+        android:id="@+id/editTextRespuesta"
+        android:layout_width="162dp"
+        android:layout_height="64dp"
+        android:layout_below="@id/textViewMultiplicacion"
+        android:layout_marginTop="304dp"
+        android:hint="Respuesta"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
@@ -128,10 +123,33 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="104dp"
         android:layout_height="117dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="36dp"
         android:progress="0"
         android:progressDrawable="@drawable/circulo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPorcentaje"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="132dp"
+        android:layout_marginEnd="68dp"
+        android:text="0%"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:layout_marginEnd="48dp"
+        android:text="Progreso"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -139,8 +157,8 @@
         android:id="@+id/ivAvatar"
         android:layout_width="114dp"
         android:layout_height="121dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="84dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -148,24 +166,12 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="56dp"
         android:text="Avatar"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="28dp"
-        android:text="Progreso"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

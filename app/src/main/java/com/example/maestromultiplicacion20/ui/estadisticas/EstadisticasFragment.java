@@ -76,8 +76,9 @@ public class EstadisticasFragment extends Fragment implements Spinner.OnItemSele
             @Override
             public void onClick(View view) {
                 estadisticasDAO.eliminarEstadisticas();
-                aTablas.notifyDataSetChanged();
-                aFecha.notifyDataSetChanged();
+                aTablas.clear();
+                aFecha.clear();
+                gridLayoutMulFallida.removeAllViews();
                 progressBar.setProgress(0);
                 procentajeTv.setText("0%");
             }
@@ -122,7 +123,7 @@ public class EstadisticasFragment extends Fragment implements Spinner.OnItemSele
         if(!multiplicacionesFallidas.isEmpty()){
             for (int i = 0;i<multiplicacionesFallidas.size();i++){
                 TextView tv = new TextView(requireContext());
-                tv.setTextSize(12);
+                tv.setTextSize(20);
                 tv.setTextColor(Color.BLACK);
                 tv.setText(multiplicacionesFallidas.get(i));
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();

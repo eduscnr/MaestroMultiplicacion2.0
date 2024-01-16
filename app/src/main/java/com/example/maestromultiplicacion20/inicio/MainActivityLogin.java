@@ -1,5 +1,8 @@
 package com.example.maestromultiplicacion20.inicio;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,6 +20,8 @@ import com.example.maestromultiplicacion20.adaptadores.AdapatadorTipoCuenta;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 
+import kotlin.InitializedLazyImpl;
+
 /**
  * Clase para crear nuevos usuarios
  */
@@ -28,6 +33,9 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
     private String cuenta;
     private EstadisticasDAO estadisticasDAO;
     private TextView textViewInformacion;
+    private ActivityResultLauncher<Intent> actividadResultUsuario;
+    private ActivityResultLauncher<Intent> actividadResultadoAdministrador;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +57,33 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
             public void onClick(View view) {
                 if(contrasenia.getVisibility() == View.VISIBLE && !contrasenia.getText().toString().equalsIgnoreCase("")){
                     if(!usuario.getText().toString().equalsIgnoreCase("")){
-                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), contrasenia.getText().toString(), cuenta, R.drawable.icons8_usuario_48__1_);
                         textViewInformacion.setVisibility(View.GONE);
+                        Intent intent = new Intent(MainActivityLogin.this, ActividadCrearCuentas.class);
+                        actividadResultadoAdministrador.launch(intent);
+                    }else{
+                        textViewInformacion.setVisibility(View.VISIBLE);
+                        textViewInformacion.setText("El campo contraseña y nombre no puede estar vacios");
+                    }
+                }else{
+                    if(!usuario.getText().toString().equalsIgnoreCase("") && contrasenia.getVisibility() == View.GONE){
+                            textViewInformacion.setVisibility(View.GONE);
+                            Intent intent = new Intent(MainActivityLogin.this, MainActivitySingIn.class);
+                            actividadResultUsuario.launch(intent);
+                    }else{
+                        textViewInformacion.setVisibility(View.VISIBLE);
+                        textViewInformacion.setText("El campo nombre no puede estar vacios");
+                    }
+                }
+            }
+        });
+        actividadResultUsuario = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == RESULT_OK){
+                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), null, cuenta, R.drawable.icons8_usuario_48__1_);
                         if(!registrado.equalsIgnoreCase("Usuario ya registrado")){
+                            textViewInformacion.setVisibility(View.GONE);
+                            System.out.println("he pasado por aqui y no se porque?");
                             MainActivityPrincipal.getUsuarios().clear();
                             MainActivityPrincipal.setUsuarios(estadisticasDAO.obtenerUsuarios());
                             Intent i = new Intent();
@@ -62,13 +94,14 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                             textViewInformacion.setVisibility(View.VISIBLE);
                             textViewInformacion.setText(registrado);
                         }
-                    }else{
-                        textViewInformacion.setVisibility(View.VISIBLE);
-                        textViewInformacion.setText("El campo contraseña y nombre no puede estar vacios");
                     }
-                }else{
-                    if(!usuario.getText().toString().equalsIgnoreCase("") && contrasenia.getVisibility() == View.GONE){
-                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), null, cuenta, R.drawable.icons8_usuario_48__1_);
+                }
+        );
+        actividadResultadoAdministrador = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == RESULT_OK){
+                        String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), contrasenia.getText().toString(), cuenta, R.drawable.icons8_usuario_48__1_);
                         if(!registrado.equalsIgnoreCase("Usuario ya registrado")){
                             textViewInformacion.setVisibility(View.GONE);
                             MainActivityPrincipal.getUsuarios().clear();
@@ -81,13 +114,17 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                             textViewInformacion.setVisibility(View.VISIBLE);
                             textViewInformacion.setText(registrado);
                         }
-                    }else{
-                        textViewInformacion.setVisibility(View.VISIBLE);
-                        textViewInformacion.setText("El campo nombre no puede estar vacios");
                     }
                 }
+        );
+
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                setResult(RESULT_CANCELED);
+                finish();
             }
-        });
+        };
     }
 
     @Override

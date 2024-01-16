@@ -31,7 +31,6 @@ import com.example.maestromultiplicacion20.adaptadores.AdaptadorUsuarios;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.databinding.FragmentContactosBinding;
 import com.example.maestromultiplicacion20.databinding.FragmentContactosFavBinding;
-import com.example.maestromultiplicacion20.databinding.FragmentEnviarBinding;
 import com.example.maestromultiplicacion20.interfaces.ContactosOnClick;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.modelo.Contacto;

@@ -1,5 +1,6 @@
 package com.example.maestromultiplicacion20.inicio;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,36 +13,33 @@ import android.widget.TextView;
 
 import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.R;
-import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
+import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 
-/**
- * Clase para iniciar sesio las cuentas admin
- */
+public class ActividadCrearCuentas extends AppCompatActivity {
 
-public class MainActivitySingIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_sing_in);
+        setContentView(R.layout.activity_actividad_crear_cuentas);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         EditText edUsuario = findViewById(R.id.edtNombreUsuario);
         EditText contrasenia = findViewById(R.id.edtContrasenia);
         Button ingresar = findViewById(R.id.btnIngresar);
         TextView textInformacion = findViewById(R.id.tvInformacion);
         textInformacion.setVisibility(View.GONE);
-        edUsuario.setFocusable(false);
-        edUsuario.setText(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
         EstadisticasDAO estadisticasDAO = new EstadisticasDAOImpl(this);
-        //onClick para iniciar sesion en esa cuenta
         ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Usuario usuario = estadisticasDAO.obtenerUsuario(edUsuario.getText().toString());
-                if(usuario.getContrasenia().equalsIgnoreCase(contrasenia.getText().toString())){
-                    Intent i = new Intent(MainActivitySingIn.this, MainActivity.class);
-                    MainActivitySingIn.this.startActivity(i);
+                if(usuario == null){
+                    textInformacion.setVisibility(View.VISIBLE);
+                    textInformacion.setText("El usuario no existe");
+                }
+                else if(usuario.getContrasenia().equalsIgnoreCase(contrasenia.getText().toString())){
+                    setResult(RESULT_OK);
                     finish();
                 }else{
                     textInformacion.setVisibility(View.VISIBLE);
@@ -49,5 +47,12 @@ public class MainActivitySingIn extends AppCompatActivity {
                 }
             }
         });
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        };
     }
 }

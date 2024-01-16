@@ -1,25 +1,19 @@
 package com.example.maestromultiplicacion20;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
-import com.example.maestromultiplicacion20.modelo.Estadisticas;
-import com.example.maestromultiplicacion20.servicios.MyService;
-import com.example.maestromultiplicacion20.ui.logros.FragmentLogros;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -76,7 +70,7 @@ public class MainActivity extends AppCompatActivity{
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_configuracion, R.id.nav_entrenar, R.id.nav_estadisticas, R.id.nav_logros,
-                R.id.nav_enviar, R.id.nav_contactos, R.id.nav_contactosFavoritos, R.id.nav_salir, R.id.nav_eliminar)
+                R.id.nav_enviar, R.id.nav_contactos, R.id.nav_enviar, R.id.nav_salir, R.id.nav_eliminar)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -94,14 +88,12 @@ public class MainActivity extends AppCompatActivity{
         MenuItem menuLogos = menu.findItem(R.id.nav_logros);
         MenuItem menuEnviarEsta = menu.findItem(R.id.nav_enviar);
         MenuItem menuContactos = menu.findItem(R.id.nav_contactos);
-        MenuItem menuContactosFav = menu.findItem(R.id.nav_contactosFavoritos);
         MenuItem menuSalir = menu.findItem(R.id.nav_salir);
         MenuItem menuEliminar = menu.findItem(R.id.nav_eliminar);
         if(MainActivityPrincipal.getUsuarioLogeado().getTipoCuenta().equalsIgnoreCase("usuario")){
             menuEstadisticas.setVisible(false);
             menuEnviarEsta.setVisible(false);
             menuContactos.setVisible(false);
-            menuContactosFav.setVisible(false);
             menuEliminar.setVisible(false);
             menuEntrenar.setVisible(true);
             menConfiguracion.setVisible(true);
@@ -111,7 +103,6 @@ public class MainActivity extends AppCompatActivity{
             menuEstadisticas.setVisible(true);
             menuEnviarEsta.setVisible(true);
             menuContactos.setVisible(true);
-            menuContactosFav.setVisible(true);
             menuEliminar.setVisible(true);
             menuEntrenar.setVisible(false);
             menConfiguracion.setVisible(false);
@@ -234,7 +225,7 @@ public class MainActivity extends AppCompatActivity{
             System.out.println("le di para atrar y se destruyo, asi que envia estadisticas");
             String multiplicacionSinHacer = multiplicaciones.get(indiceMultiplicacion);
             multiplicacionesFallidas.add(multiplicacionSinHacer+"=Cambió");
-            estadisticasDAO.insertarEstadisticas(String.valueOf(porcentajeExito), String.valueOf(tablaSeleccionadoEnviar), multiplicacionesFallidas,
+            estadisticasDAO.insertarEstadisticas(String.valueOf(porcentajeExito), String.valueOf(tablaMultiplicar), multiplicacionesFallidas,
                     estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), avatares.get(9));
             MainActivityPrincipal.setEnviarEstadisticas(true);
         }

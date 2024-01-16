@@ -21,24 +21,20 @@
             android:icon="@drawable/icons8_achievement_64"
             android:title="@string/menu_logros" />
         <item
-            android:id="@+id/nav_enviar"
-            android:icon="@drawable/icons8_enviar_64"
-            android:title="@string/menu_enviar" />
-        <item
             android:id="@+id/nav_contactos"
             android:icon="@drawable/icons8_contactos_30"
             android:title="@string/menu_contactos" />
         <item
-            android:id="@+id/nav_contactosFavoritos"
-            android:icon="@drawable/icons8_favoritos_48"
-            android:title="@string/menu_contactosFavoritos" />
-        <item
-            android:id="@+id/nav_salir"
-            android:icon="@drawable/icons8_salida_50"
-            android:title="@string/menu_salir" />
+            android:id="@+id/nav_enviar"
+            android:icon="@drawable/icons8_enviar_64"
+            android:title="@string/menu_enviar" />
         <item
             android:id="@+id/nav_eliminar"
             android:icon="@drawable/icons8_basura_llena_100"
             android:title="@string/menu_eliminarUsuarios" />
+        <item
+            android:id="@+id/nav_salir"
+            android:icon="@drawable/icons8_salida_50"
+            android:title="@string/menu_salir" />
     </group>
 </menu>
