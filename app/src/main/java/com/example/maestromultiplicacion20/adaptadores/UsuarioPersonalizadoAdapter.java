@@ -28,6 +28,10 @@ public class UsuarioPersonalizadoAdapter extends RecyclerView.Adapter<UsuarioPer
     private OnItemClickListener onItemClickListener;
     private Context context;
 
+    public void setItemList(List<UsuarioPersonalizado> itemList) {
+        this.itemList = itemList;
+    }
+
     public interface OnItemClickListener {
         void onItemButtonClick();
     }

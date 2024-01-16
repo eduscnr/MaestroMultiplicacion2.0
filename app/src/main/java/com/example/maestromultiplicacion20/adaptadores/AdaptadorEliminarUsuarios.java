@@ -18,6 +18,14 @@ import java.util.List;
 public class AdaptadorEliminarUsuarios extends RecyclerView.Adapter<AdaptadorEliminarUsuarios.ViewHolder>{
     private List<UsuarioPersonalizado> itemList;
     private Context context;
+    private OnItemClickListener onItemClickListener;
+    public interface OnItemClickListener{
+        public void onClickItem(int posicion);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public AdaptadorEliminarUsuarios(List<UsuarioPersonalizado> itemList, Context context) {
         this.itemList = itemList;
@@ -37,12 +45,18 @@ public class AdaptadorEliminarUsuarios extends RecyclerView.Adapter<AdaptadorEli
         UsuarioPersonalizado item = itemList.get(position);
         holder.imageButton.setImageResource(item.getImageResource());
         holder.textView.setText(item.getText());
+        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onClickItem(holder.getAdapterPosition());
+            }
+        });
     }
     @Override
     public int getItemCount() {
         return itemList.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageButton imageButton;
         private TextView textView;
         private Context context;
@@ -52,12 +66,6 @@ public class AdaptadorEliminarUsuarios extends RecyclerView.Adapter<AdaptadorEli
             imageButton = itemView.findViewById(R.id.imageButton);
             textView = itemView.findViewById(R.id.textView);
             this.context = context;
-            imageButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            System.out.println(textView.getText().toString());
         }
     }
 }

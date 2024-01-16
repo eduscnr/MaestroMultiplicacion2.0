@@ -219,6 +219,16 @@ public class MainActivityPrincipal extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onResume() {
+        System.out.println("He restablecido la vista");
+        usuarios = estadisticasDAO.obtenerUsuarios();
+        itemList = obtenerDatos();
+        adapter.setItemList(itemList);
+        adapter.notifyDataSetChanged();
+        super.onResume();
+    }
+
     public static Intent getServicio() {
         return servicio;
     }

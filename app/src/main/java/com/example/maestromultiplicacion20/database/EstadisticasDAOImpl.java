@@ -242,7 +242,16 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
 
     @Override
     public void eliminarUsuarios(String nombre) {
-        //Primero borrar estadisticas: delete from estadisticas where idusuario=?
-        //Segundo borrar usuarios: delete from usuario where idUsurio= ?
+        Cursor cursor = db.rawQuery("SELECT id_usuario FROM USUARIO WHERE nombreUsu = ?", new String[]{nombre});
+
+        if (cursor.moveToFirst()) {
+            int idUsuario = cursor.getInt(0);
+
+            db.execSQL("DELETE FROM USUARIO WHERE nombreUsu = '" + nombre + "'");
+            db.execSQL("DELETE FROM ESTADISTICAS WHERE id_usuario = " + idUsuario);
+
+        }
+
+        cursor.close();
     }
 }

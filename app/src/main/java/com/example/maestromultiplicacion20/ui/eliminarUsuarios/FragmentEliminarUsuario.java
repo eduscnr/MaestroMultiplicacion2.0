@@ -16,6 +16,7 @@ import com.example.maestromultiplicacion20.adaptadores.AdaptadorUsuarios;
 import com.example.maestromultiplicacion20.adaptadores.UsuarioPersonalizadoAdapter;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.databinding.FragmentEliminarUsuarioBinding;
+import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 import com.example.maestromultiplicacion20.modelo.UsuarioPersonalizado;
@@ -27,6 +28,7 @@ public class FragmentEliminarUsuario extends Fragment {
     private FragmentEliminarUsuarioBinding binding;
     private RecyclerView recyclerView;
     private List<Usuario> usuarios;
+    private List<Usuario> usuariosCuenta;
     private List<UsuarioPersonalizado> itemList;
     private AdaptadorEliminarUsuarios adaptadorUsuarios;
 
@@ -43,13 +45,23 @@ public class FragmentEliminarUsuario extends Fragment {
         adaptadorUsuarios = new AdaptadorEliminarUsuarios(itemList, requireContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adaptadorUsuarios);
+        adaptadorUsuarios.setOnItemClickListener(new AdaptadorEliminarUsuarios.OnItemClickListener() {
+            @Override
+            public void onClickItem(int posicion) {
+                estadisticasDAO.eliminarUsuarios(itemList.get(posicion).getText());
+                itemList.remove(posicion);
+                adaptadorUsuarios.notifyDataSetChanged();
+            }
+        });
         return root;
     }
     public List<UsuarioPersonalizado> apariencia(){
         List<UsuarioPersonalizado> itemList = new ArrayList<>();
         if(!usuarios.isEmpty()) {
             for (Usuario u : usuarios) {
-                itemList.add(new UsuarioPersonalizado(u.getAvatarImg(), u.getNombreUsuario()));
+                if (!u.getNombreUsuario().equalsIgnoreCase(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario())){
+                    itemList.add(new UsuarioPersonalizado(u.getAvatarImg(), u.getNombreUsuario()));
+                }
             }
         }
         return itemList;
