@@ -125,7 +125,8 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
      */
     private void mostrarContactos() {
         contactos = obtenerContactos("");
-        adaptadorContactos = new AdaptadorContactos(contactos, this);
+        ContactosOnClick contactosOnClick = this;
+        adaptadorContactos = new AdaptadorContactos(contactos, contactosOnClick);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adaptadorContactos);
@@ -133,7 +134,7 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 contactos = obtenerContactos(binding.editTextContacto.getText().toString());
-                adaptadorContactos = new AdaptadorContactos(contactos, null);
+                adaptadorContactos = new AdaptadorContactos(contactos, contactosOnClick);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
                 recyclerView.setAdapter(adaptadorContactos);

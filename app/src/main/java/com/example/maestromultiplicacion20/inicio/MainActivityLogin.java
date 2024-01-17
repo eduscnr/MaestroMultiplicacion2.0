@@ -67,7 +67,7 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                 }else{
                     if(!usuario.getText().toString().equalsIgnoreCase("") && contrasenia.getVisibility() == View.GONE){
                             textViewInformacion.setVisibility(View.GONE);
-                            Intent intent = new Intent(MainActivityLogin.this, MainActivitySingIn.class);
+                            Intent intent = new Intent(MainActivityLogin.this, ActividadCrearCuentas.class);
                             actividadResultUsuario.launch(intent);
                     }else{
                         textViewInformacion.setVisibility(View.VISIBLE);

@@ -54,7 +54,9 @@ public class AdaptadorContactos extends RecyclerView.Adapter<AdaptadorContactos.
             @Override
             public void onClick(View view) {
                 int posicion =holder.getAdapterPosition();
-                contactosOnClick.onClickCardView(posicion);
+                if(contactosOnClick != null){
+                    contactosOnClick.onClickCardView(posicion);
+                }
             }
         });
         holder.favorito.setOnClickListener(new View.OnClickListener() {
