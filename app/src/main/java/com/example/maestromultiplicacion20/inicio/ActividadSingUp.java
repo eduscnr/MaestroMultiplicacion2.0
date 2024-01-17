@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
@@ -20,11 +19,11 @@ import com.example.maestromultiplicacion20.modelo.Usuario;
  * Clase para iniciar sesio las cuentas admin
  */
 
-public class MainActivitySingIn extends AppCompatActivity {
+public class ActividadSingUp extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_sing_in);
+        setContentView(R.layout.activity_main_sing_up);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         EditText edUsuario = findViewById(R.id.edtNombreUsuario);
         EditText contrasenia = findViewById(R.id.edtContrasenia);
@@ -32,7 +31,7 @@ public class MainActivitySingIn extends AppCompatActivity {
         TextView textInformacion = findViewById(R.id.tvInformacion);
         textInformacion.setVisibility(View.GONE);
         edUsuario.setFocusable(false);
-        edUsuario.setText(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
+        edUsuario.setText(ActividadPrincipal.getUsuarioLogeado().getNombreUsuario());
         EstadisticasDAO estadisticasDAO = new EstadisticasDAOImpl(this);
         //onClick para iniciar sesion en esa cuenta
         ingresar.setOnClickListener(new View.OnClickListener() {
@@ -40,8 +39,8 @@ public class MainActivitySingIn extends AppCompatActivity {
             public void onClick(View view) {
                 Usuario usuario = estadisticasDAO.obtenerUsuario(edUsuario.getText().toString());
                 if(usuario.getContrasenia().equalsIgnoreCase(contrasenia.getText().toString())){
-                    Intent i = new Intent(MainActivitySingIn.this, MainActivity.class);
-                    MainActivitySingIn.this.startActivity(i);
+                    Intent i = new Intent(ActividadSingUp.this, ActividadNavegationDrawer.class);
+                    ActividadSingUp.this.startActivity(i);
                     finish();
                 }else{
                     textInformacion.setVisibility(View.VISIBLE);

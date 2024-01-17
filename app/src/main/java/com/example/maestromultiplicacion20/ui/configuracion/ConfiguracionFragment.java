@@ -18,7 +18,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 
-import com.example.maestromultiplicacion20.MainActivity;
+import com.example.maestromultiplicacion20.inicio.ActividadNavegationDrawer;
 import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.adaptadores.AdaptadorAvatares;
 import com.example.maestromultiplicacion20.adaptadores.AdaptadorDificultad;
@@ -58,7 +58,7 @@ public class ConfiguracionFragment extends Fragment implements Spinner.OnItemSel
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int posicion, long l) {
         if (adapterView.getId() == R.id.spinner) {
-            MainActivity.setAvatar(posicion);
+            ActividadNavegationDrawer.setAvatar(posicion);
             //Dependiendo de la posición que haya seleccionado cambia de un color u otro a través del avatar
             switch (posicion) {
                 case 0:
@@ -89,7 +89,7 @@ public class ConfiguracionFragment extends Fragment implements Spinner.OnItemSel
             }
         } else if (adapterView.getId() == R.id.spinnerDificultad) {
             String dificultadSeleccionada = dificultades[posicion];
-            MainActivity.setDificultad(dificultadSeleccionada);
+            ActividadNavegationDrawer.setDificultad(dificultadSeleccionada);
         }
     }
 
@@ -141,16 +141,13 @@ public class ConfiguracionFragment extends Fragment implements Spinner.OnItemSel
             //Añado un color al boton que se a seleccionado.
             b.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.colorBtnSeleccionado));
             if(b.getText().toString().equals("?")){
-                Toast.makeText(getContext(), "Ha seleccionado un tabla de multiplicar aleatoria", Toast.LENGTH_SHORT).show();
                 tablaMultiplicar = new Random().nextInt(10);
-                MainActivity.setTablaMultiplicar(tablaMultiplicar);
+                ActividadNavegationDrawer.setTablaMultiplicar(tablaMultiplicar);
             }else{
-                Toast.makeText(getContext(), "Ha seleccionado la tabla de multiplicar: " + b.getText().toString(), Toast.LENGTH_SHORT).show();
                 tablaMultiplicar = Integer.parseInt(b.getText().toString());
-                System.out.println(tablaMultiplicar);
-                MainActivity.setTablaMultiplicar(tablaMultiplicar);
+                ActividadNavegationDrawer.setTablaMultiplicar(tablaMultiplicar);
             }
-            MainActivity.setTablaTemporalSeleccionada(-1);
+            ActividadNavegationDrawer.setTablaTemporalSeleccionada(-1);
         }
     }
     //Método que cambia de color la barra de estados (con Window) y el ActionBar
@@ -161,6 +158,6 @@ public class ConfiguracionFragment extends Fragment implements Spinner.OnItemSel
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setBackgroundDrawable(new ColorDrawable(color));
         }
-        MainActivity.setColorAplicacion(color);
+        ActividadNavegationDrawer.setColorAplicacion(color);
     }
 }

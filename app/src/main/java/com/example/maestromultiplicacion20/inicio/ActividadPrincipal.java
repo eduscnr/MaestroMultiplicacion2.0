@@ -19,7 +19,6 @@ import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.database.Sqlite;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 import com.example.maestromultiplicacion20.modelo.UsuarioPersonalizado;
-import com.example.maestromultiplicacion20.servicios.MyService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.List;
 /**
  * Clase principal, es lo que se muestra el principio de la app
  */
-public class MainActivityPrincipal extends AppCompatActivity {
+public class ActividadPrincipal extends AppCompatActivity {
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private List<UsuarioPersonalizado> itemList;
     private UsuarioPersonalizadoAdapter adapter;
@@ -37,11 +36,11 @@ public class MainActivityPrincipal extends AppCompatActivity {
     private static Usuario usuarioLogeado;
     //Variable para enviar estadisticas cuando el servicio a sido destruido, es decir, cuando se a cerrado la aplicación
     private static List<String> multiplicacionesFallidas;
-    private static int porcentajeExito;
+    private static int porcentajeExito = 100;
     private static int tablaSeleccionada;
     private static int avatarJugado;
+    private static int indiceMultiplicacion;
     private static boolean enviarEstadisticas = false;
-    private static Intent servicio;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +65,7 @@ public class MainActivityPrincipal extends AppCompatActivity {
             @Override
             public void onItemButtonClick() {
                 // Hago un intent que ejecuta otra actividad que seria la de login
-                Intent intent = new Intent(MainActivityPrincipal.this, MainActivityLogin.class);
+                Intent intent = new Intent(ActividadPrincipal.this, ActividadLogin.class);
                 activityResultLauncher.launch(intent);
             }
         });
@@ -155,11 +154,11 @@ public class MainActivityPrincipal extends AppCompatActivity {
 
 
     public static void setUsuarioLogeado(Usuario usuarioLogeado) {
-        MainActivityPrincipal.usuarioLogeado = usuarioLogeado;
+        ActividadPrincipal.usuarioLogeado = usuarioLogeado;
     }
 
     public static void setUsuarios(List<Usuario> usuarios) {
-        MainActivityPrincipal.usuarios = usuarios;
+        ActividadPrincipal.usuarios = usuarios;
     }
 
     public static Usuario getUsuarioLogeado() {
@@ -175,7 +174,7 @@ public class MainActivityPrincipal extends AppCompatActivity {
     }
 
     public static void setEnviarEstadisticas(boolean enviarEstadisticas) {
-        MainActivityPrincipal.enviarEstadisticas = enviarEstadisticas;
+        ActividadPrincipal.enviarEstadisticas = enviarEstadisticas;
     }
 
     public static List<String> getMultiplicacionesFallidas() {
@@ -183,7 +182,7 @@ public class MainActivityPrincipal extends AppCompatActivity {
     }
 
     public static void setMultiplicacionesFallidas(List<String> multiplicacionesFallidas) {
-        MainActivityPrincipal.multiplicacionesFallidas = multiplicacionesFallidas;
+        ActividadPrincipal.multiplicacionesFallidas = multiplicacionesFallidas;
     }
 
     public static int getPorcentajeExito() {
@@ -191,7 +190,7 @@ public class MainActivityPrincipal extends AppCompatActivity {
     }
 
     public static void setPorcentajeExito(int porcentajeExito) {
-        MainActivityPrincipal.porcentajeExito = porcentajeExito;
+        ActividadPrincipal.porcentajeExito = porcentajeExito;
     }
 
     public static int getTablaSeleccionada() {
@@ -199,7 +198,7 @@ public class MainActivityPrincipal extends AppCompatActivity {
     }
 
     public static void setTablaSeleccionada(int tablaSeleccionada) {
-        MainActivityPrincipal.tablaSeleccionada = tablaSeleccionada;
+        ActividadPrincipal.tablaSeleccionada = tablaSeleccionada;
     }
 
     public static int getAvatarJugado() {
@@ -207,12 +206,13 @@ public class MainActivityPrincipal extends AppCompatActivity {
     }
 
     public static void setAvatarJugado(int avatarJugado) {
-        MainActivityPrincipal.avatarJugado = avatarJugado;
+        ActividadPrincipal.avatarJugado = avatarJugado;
     }
 
-    public static void setServicio(Intent servicio) {
-        MainActivityPrincipal.servicio = servicio;
+    public static void setIndiceMultiplicacion(int indiceMultiplicacion) {
+        ActividadPrincipal.indiceMultiplicacion = indiceMultiplicacion;
     }
+
 
     @Override
     protected void onPause() {
@@ -221,7 +221,6 @@ public class MainActivityPrincipal extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        System.out.println("He restablecido la vista");
         usuarios = estadisticasDAO.obtenerUsuarios();
         itemList = obtenerDatos();
         adapter.setItemList(itemList);
@@ -229,15 +228,17 @@ public class MainActivityPrincipal extends AppCompatActivity {
         super.onResume();
     }
 
-    public static Intent getServicio() {
-        return servicio;
-    }
-
     @Override
     protected void onDestroy() {
-        System.out.println("Enviar estadisitcas porque se ha cerrado la aplicacion de golpe");
-        servicio = new Intent(this, MyService.class);
-        startService(servicio);
+        if(!enviarEstadisticas && indiceMultiplicacion != 0 && indiceMultiplicacion != 10){
+            if(multiplicacionesFallidas != null){
+                for (String mutiplicacion : multiplicacionesFallidas){
+                    porcentajeExito -= 10;
+                }
+            }
+            estadisticasDAO.insertarEstadisticas(String.valueOf(porcentajeExito), String.valueOf(tablaSeleccionada), multiplicacionesFallidas,
+                    estadisticasDAO.obtenerIdUsuario(ActividadPrincipal.getUsuarioLogeado().getNombreUsuario()), ActividadNavegationDrawer.getAvatares().get(9));
+        }
         super.onDestroy();
     }
 }

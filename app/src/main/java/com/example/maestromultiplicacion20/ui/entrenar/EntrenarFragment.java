@@ -17,25 +17,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 
-import com.example.maestromultiplicacion20.MainActivity;
+import com.example.maestromultiplicacion20.databinding.FragmentEntrenarBinding;
+import com.example.maestromultiplicacion20.inicio.ActividadNavegationDrawer;
 import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
-import com.example.maestromultiplicacion20.databinding.FragmentEntrenarBinding;
-import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
-import com.example.maestromultiplicacion20.servicios.MyService;
+import com.example.maestromultiplicacion20.inicio.ActividadPrincipal;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-/**
- * FALTA:
- * -CUANDO TERMINE LA TABLA DEBERIA DE GUARDAR LAS ESTADISTICAS EN LA BASE DE DATOS
- * -BUSCAR CON QUE USUARIO ESTA LOGEADO Y GUARDA ESAS ESTADISTICAS A ESE USUARIO
- * -CUANDO SE VAYA DEL FRAGMENTO Y CAMBIE DE MULTIPLICACION DEBERIA PONER EN EL RESULTADO DE DONDE SE HA QUEDA "ha cambiado de multiplicacion" o "tabla cambiada"
- */
 public class EntrenarFragment extends Fragment implements View.OnClickListener{
 
     private FragmentEntrenarBinding binding;
@@ -60,7 +52,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            MainActivity.setIndiceMultiplicacion(savedInstanceState.getInt("indiceMultiplicacion"));
+            ActividadNavegationDrawer.setIndiceMultiplicacion(savedInstanceState.getInt("indiceMultiplicacion"));
             multiplicacionFallidas = savedInstanceState.getStringArrayList("multiplicacionFallidas");
             porcetajeDeExito = savedInstanceState.getInt("porcentajeExito");
             progreso = savedInstanceState.getInt("progreso");
@@ -69,8 +61,6 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         }
         binding = FragmentEntrenarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        System.out.println("Tabla bien: " + MainActivity.getTablaMultiplicar());
-        System.out.println("Tabla temporal: " + MainActivity.getTablaTemporalSeleccionada());
         estadisticasDAO = new EstadisticasDAOImpl(requireContext());
         textViewMultiplicacion = root.findViewById(R.id.textViewMultiplicacion);
         editTextRespuesta = root.findViewById(R.id.editTextRespuesta);
@@ -87,30 +77,29 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         editTextRespuesta.setFocusable(false);
         aniadirBotones(11);
         botonValidar.setOnClickListener(this);
-        botonValidar.setBackgroundColor(MainActivity.getColorAplicacion());
+        botonValidar.setBackgroundColor(ActividadNavegationDrawer.getColorAplicacion());
         /*
          * Si el índice del avatar es mayor que cero debo de restar una foto porque en entrenar incremento uno y
          * cuando cambio entre fagmento se muestra un foto de más sin haber realizado la multiplicación
          * por donde se quedo
          * */
-        if (MainActivity.getTablaTemporalSeleccionada() == MainActivity.getTablaMultiplicar()) {
-            if (MainActivity.getIndiceAvatar() > 0) {
-                imageViewAvatar.setImageResource(MainActivity.getAvatares().get(MainActivity.getIndiceAvatar() - 1));
+        if (ActividadNavegationDrawer.getTablaTemporalSeleccionada() == ActividadNavegationDrawer.getTablaMultiplicar()) {
+            if (ActividadNavegationDrawer.getIndiceAvatar() > 0) {
+                imageViewAvatar.setImageResource(ActividadNavegationDrawer.getAvatares().get(ActividadNavegationDrawer.getIndiceAvatar() - 1));
             }
         }
-        if (MainActivity.getTablaTemporalSeleccionada() != MainActivity.getTablaMultiplicar()) {
-            System.out.println("Entro por aqui cuando cierro sesion");
+        if (ActividadNavegationDrawer.getTablaTemporalSeleccionada() != ActividadNavegationDrawer.getTablaMultiplicar()) {
             enviarEstadisticas = true;
             //Ingreso las estadisticas si el usuario ha cambia de fragmento.
-            if(MainActivity.getIndiceMultiplicacion() != 0 && MainActivity.getIndiceMultiplicacion() != 10 && MainActivity.getMultiplicaciones().size() > 0){
-                String multiplicacionSinHacer = MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion());
+            if(ActividadNavegationDrawer.getIndiceMultiplicacion() != 0 && ActividadNavegationDrawer.getIndiceMultiplicacion() != 10 && ActividadNavegationDrawer.getMultiplicaciones().size() > 0){
+                String multiplicacionSinHacer = ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion());
                 multiplicacionFallidas.add(multiplicacionSinHacer+"=Cambio");
-                estadisticasDAO.insertarEstadisticas(String.valueOf(porcetajeDeExito), String.valueOf(tablaSeleccionadaEnviar), multiplicacionFallidas, estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), MainActivity.getAvatares().get(9));
+                estadisticasDAO.insertarEstadisticas(String.valueOf(porcetajeDeExito), String.valueOf(tablaSeleccionadaEnviar), multiplicacionFallidas, estadisticasDAO.obtenerIdUsuario(ActividadPrincipal.getUsuarioLogeado().getNombreUsuario()), ActividadNavegationDrawer.getAvatares().get(9));
             }
-            inicializarAvatar(MainActivity.getAvatar());
-            entrenar(MainActivity.getDificultad(), MainActivity.getTablaMultiplicar());
+            inicializarAvatar(ActividadNavegationDrawer.getAvatar());
+            entrenar(ActividadNavegationDrawer.getDificultad(), ActividadNavegationDrawer.getTablaMultiplicar());
         }
-        if (MainActivity.getMultiplicaciones().size() >0){
+        if (ActividadNavegationDrawer.getMultiplicaciones().size() >0){
             mostrarSiguienteMultiplicacion();
         }
         //Muestro el porcentaje en un textView
@@ -131,7 +120,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
                     editTextRespuesta.setText(borrando);
                 }
             } else {
-                if (MainActivity.getIndiceMultiplicacion() < MainActivity.getMultiplicaciones().size()) {
+                if (ActividadNavegationDrawer.getIndiceMultiplicacion() < ActividadNavegationDrawer.getMultiplicaciones().size()) {
                     String textRespuesta = b.getText().toString();
                     editTextRespuesta.append(textRespuesta);
                 }
@@ -145,26 +134,26 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     private void mostrarSiguienteMultiplicacion() {
         String multiplicacionActual;
         //Muestro la multiplicación si esta dentro del rango
-        if (MainActivity.getIndiceMultiplicacion() < MainActivity.getMultiplicaciones().size()) {
-            multiplicacionActual = MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion());
+        if (ActividadNavegationDrawer.getIndiceMultiplicacion() < ActividadNavegationDrawer.getMultiplicaciones().size()) {
+            multiplicacionActual = ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion());
             textViewMultiplicacion.setText(multiplicacionActual);
             /*Si esta fuera del rango significa que el indice a llegado al 10 y no hay más multiplicaciones lo que significa que hemos llegado al final
               y debo de mostrar la ultima multiplicación
             */
         } else {
-            multiplicacionActual = MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion() - 1);
+            multiplicacionActual = ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion() - 1);
             textViewMultiplicacion.setText(multiplicacionActual);
             //Si el boton de validar (Ok) habilitado envia la estadisticas.
             if(enviarEstadisticas && estadisticasDAO != null){
-                estadisticasDAO.insertarEstadisticas(String.valueOf(porcetajeDeExito), String.valueOf(MainActivity.getTablaMultiplicar()), multiplicacionFallidas, estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), MainActivity.getAvatares().get(9));
+                estadisticasDAO.insertarEstadisticas(String.valueOf(porcetajeDeExito), String.valueOf(ActividadNavegationDrawer.getTablaMultiplicar()), multiplicacionFallidas, estadisticasDAO.obtenerIdUsuario(ActividadPrincipal.getUsuarioLogeado().getNombreUsuario()), ActividadNavegationDrawer.getAvatares().get(9));
                 enviarEstadisticas = false;
-                MainActivityPrincipal.setEnviarEstadisticas(true);
+                ActividadPrincipal.setEnviarEstadisticas(true);
             }
             //Si el indice del avatar a llegado al 10 porque hay 10 imagenes significa que a conseguido completar el avatar.
-            if(MainActivity.getIndiceAvatar() == 10){
-                int avatar = MainActivity.getAvatares().get(9);
-                if(!MainActivity.getAvataresColeccionables().contains(avatar)){
-                    MainActivity.getAvataresColeccionables().add(MainActivity.getAvatares().get(9));
+            if(ActividadNavegationDrawer.getIndiceAvatar() == 10){
+                int avatar = ActividadNavegationDrawer.getAvatares().get(9);
+                if(!ActividadNavegationDrawer.getAvataresColeccionables().contains(avatar)){
+                    ActividadNavegationDrawer.getAvataresColeccionables().add(ActividadNavegationDrawer.getAvatares().get(9));
                 }
             }
         }
@@ -175,11 +164,11 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
      */
     private void validarRespuesta() {
         //Compruebo si el indice esta dentro de la lista,
-        if (MainActivity.getIndiceMultiplicacion() < MainActivity.getMultiplicaciones().size()) {
+        if (ActividadNavegationDrawer.getIndiceMultiplicacion() < ActividadNavegationDrawer.getMultiplicaciones().size()) {
             //Cojo la resulta del usuario
             String respuestaUsuario = editTextRespuesta.getText().toString();
             //Uso un delimitador para coger el primer operador y el segundo
-            String multiplicadores[] = MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion()).split("x");
+            String multiplicadores[] = ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion()).split("x");
             //Una vez delimitado realiza la operación
             int respuesta = Integer.parseInt(multiplicadores[0].trim()) * Integer.parseInt(multiplicadores[1].trim());
 
@@ -191,20 +180,20 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
                 mostrarIconoCorrecto.setVisibility(View.VISIBLE);
                 mostrarErroror.setText("");
                 mostrarIconoError.setVisibility(View.GONE);
-                mostrarCorrecion.setText(MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion()) + "=" + respuesta);
-                imageViewAvatar.setImageResource(MainActivity.getAvatares().get(MainActivity.getIndiceAvatar()));
-                MainActivity.setIndiceAvatar(MainActivity.getIndiceAvatar() + 1);
+                mostrarCorrecion.setText(ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion()) + "=" + respuesta);
+                imageViewAvatar.setImageResource(ActividadNavegationDrawer.getAvatares().get(ActividadNavegationDrawer.getIndiceAvatar()));
+                ActividadNavegationDrawer.setIndiceAvatar(ActividadNavegationDrawer.getIndiceAvatar() + 1);
                 //Si es incorrectao muestro el resultado mal con un cruz y el otro textView el resultado correcto con tick
             } else {
                 mostrarIconoError.setVisibility(View.VISIBLE);
                 mostrarIconoCorrecto.setVisibility(View.VISIBLE);
-                mostrarCorrecion.setText(MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion()) + "=" + respuesta);
-                mostrarErroror.setText(MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion()) + "=" + respuestaUsuario);
+                mostrarCorrecion.setText(ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion()) + "=" + respuesta);
+                mostrarErroror.setText(ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion()) + "=" + respuestaUsuario);
                 porcetajeDeExito -= 10;
-                multiplicacionFallidas.add(MainActivity.getMultiplicaciones().get(MainActivity.getIndiceMultiplicacion()) + "=" + respuestaUsuario);
+                multiplicacionFallidas.add(ActividadNavegationDrawer.getMultiplicaciones().get(ActividadNavegationDrawer.getIndiceMultiplicacion()) + "=" + respuestaUsuario);
             }
             //Incremento el indice de la multiplicación
-            MainActivity.setIndiceMultiplicacion(MainActivity.getIndiceMultiplicacion() + 1);
+            ActividadNavegationDrawer.setIndiceMultiplicacion(ActividadNavegationDrawer.getIndiceMultiplicacion() + 1);
             mostrarSiguienteMultiplicacion();
         }
     }
@@ -233,7 +222,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             }
             b.setId(j);
             b.setOnClickListener(this);
-            b.setBackgroundColor(MainActivity.getColorAplicacion());
+            b.setBackgroundColor(ActividadNavegationDrawer.getColorAplicacion());
             b.setTextColor(Color.WHITE);
             g.addView(b, j);
         }
@@ -245,25 +234,25 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
      * @param tabla el número de la tabla
      */
     private void entrenar(String dificultad, int tabla) {
-        MainActivity.getMultiplicaciones().clear();
-        MainActivity.setIndiceMultiplicacion(0);
-        MainActivityPrincipal.setEnviarEstadisticas(false);
+        ActividadNavegationDrawer.getMultiplicaciones().clear();
+        ActividadNavegationDrawer.setIndiceMultiplicacion(0);
+        ActividadPrincipal.setEnviarEstadisticas(false);
         switch (dificultad) {
             case "Fácil":
                 for (int i = 1; i <= 10; i++) {
-                    MainActivity.getMultiplicaciones().add(tabla + "x" + String.valueOf(i));
+                    ActividadNavegationDrawer.getMultiplicaciones().add(tabla + "x" + String.valueOf(i));
                 }
                 break;
             case "Media":
                 for (int i = 10; i >= 1; i--) {
-                    MainActivity.getMultiplicaciones().add(tabla + "x" + String.valueOf(i));
+                    ActividadNavegationDrawer.getMultiplicaciones().add(tabla + "x" + String.valueOf(i));
                 }
                 break;
             case "Dificil":
                 for (int i = 1; i <= 10; i++) {
-                    MainActivity.getMultiplicaciones().add(tabla + "x" + String.valueOf(i));
+                    ActividadNavegationDrawer.getMultiplicaciones().add(tabla + "x" + String.valueOf(i));
                 }
-                Collections.shuffle(MainActivity.getMultiplicaciones());
+                Collections.shuffle(ActividadNavegationDrawer.getMultiplicaciones());
                 break;
         }
         porcetajeDeExito = 100;
@@ -283,29 +272,29 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
      * @param posicionAvatar índice de esa avatar para combiar de color
      */
     private void inicializarAvatar(int posicionAvatar) {
-        MainActivity.getAvatares().clear();
+        ActividadNavegationDrawer.getAvatares().clear();
         multiplicacionFallidas = new ArrayList<>();
-        MainActivityPrincipal.setEnviarEstadisticas(false);
-        MainActivity.setIndiceAvatar(0);
+        ActividadPrincipal.setEnviarEstadisticas(false);
+        ActividadNavegationDrawer.setIndiceAvatar(0);
         switch (posicionAvatar) {
             case 0:
-                MainActivity.getAvatares().addAll(Arrays.asList(R.drawable.superman01, R.drawable.superman02, R.drawable.superman03, R.drawable.superman04, R.drawable.superman05,
+                ActividadNavegationDrawer.getAvatares().addAll(Arrays.asList(R.drawable.superman01, R.drawable.superman02, R.drawable.superman03, R.drawable.superman04, R.drawable.superman05,
                         R.drawable.superman06, R.drawable.superman07, R.drawable.superman08, R.drawable.superman09, R.drawable.superman10));
                 break;
             case 1:
-                MainActivity.getAvatares().addAll(Arrays.asList(R.drawable.batman01, R.drawable.batman02, R.drawable.batman03, R.drawable.batman04, R.drawable.batman05,
+                ActividadNavegationDrawer.getAvatares().addAll(Arrays.asList(R.drawable.batman01, R.drawable.batman02, R.drawable.batman03, R.drawable.batman04, R.drawable.batman05,
                         R.drawable.batman06, R.drawable.batman07, R.drawable.batman08, R.drawable.batman09, R.drawable.batman10));
                 break;
             case 2:
-                MainActivity.getAvatares().addAll(Arrays.asList(R.drawable.ironman01, R.drawable.ironman02, R.drawable.ironman03, R.drawable.ironman04, R.drawable.ironman05,
+                ActividadNavegationDrawer.getAvatares().addAll(Arrays.asList(R.drawable.ironman01, R.drawable.ironman02, R.drawable.ironman03, R.drawable.ironman04, R.drawable.ironman05,
                         R.drawable.ironman06, R.drawable.ironman07, R.drawable.ironman08, R.drawable.ironman09, R.drawable.ironman10));
                 break;
             case 3:
-                MainActivity.getAvatares().addAll(Arrays.asList(R.drawable.spiderman01, R.drawable.spiderman02, R.drawable.spiderman03, R.drawable.spiderman04, R.drawable.spiderman05,
+                ActividadNavegationDrawer.getAvatares().addAll(Arrays.asList(R.drawable.spiderman01, R.drawable.spiderman02, R.drawable.spiderman03, R.drawable.spiderman04, R.drawable.spiderman05,
                         R.drawable.spiderman06, R.drawable.spiderman07, R.drawable.spiderman08, R.drawable.spiderman09, R.drawable.spiderman10));
                 break;
             case 4:
-                MainActivity.getAvatares().addAll(Arrays.asList(R.drawable.thor01, R.drawable.thor02, R.drawable.thor03, R.drawable.thor04, R.drawable.thor05,
+                ActividadNavegationDrawer.getAvatares().addAll(Arrays.asList(R.drawable.thor01, R.drawable.thor02, R.drawable.thor03, R.drawable.thor04, R.drawable.thor05,
                         R.drawable.thor06, R.drawable.thor07, R.drawable.thor08, R.drawable.thor09, R.drawable.thor10));
                 break;
             default:
@@ -320,14 +309,14 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         editTextRespuesta.setText("");
         //Guardo este valor cuando el usuario a cambiado de tabla,
         //si no ha terminado la tabla me sirve para guardarlo en la base de datos.
-        tablaSeleccionadaEnviar = MainActivity.getTablaMultiplicar();
+        tablaSeleccionadaEnviar = ActividadNavegationDrawer.getTablaMultiplicar();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putStringArrayList("multiplicacionFallidas", (ArrayList<String>) multiplicacionFallidas);
-        outState.putInt("indiceMultiplicacion", MainActivity.getIndiceMultiplicacion());
+        outState.putInt("indiceMultiplicacion", ActividadNavegationDrawer.getIndiceMultiplicacion());
         outState.putInt("porcentajeExito", porcetajeDeExito);
         outState.putInt("progreso", progreso);
         outState.putBoolean("enviarEstadisticas", enviarEstadisticas);
@@ -335,35 +324,24 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     }
     @Override
     public void onDestroyView() {
-        System.out.println("Destruyo en fargmento Entrenar");
-        MainActivity.setTablaTemporalSeleccionada(MainActivity.getTablaMultiplicar());
-        MainActivity.setPorcentajeExito(porcetajeDeExito);
-        MainActivity.setMultiplicacionesFallidas(multiplicacionFallidas);
-        MainActivity.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
+        ActividadNavegationDrawer.setTablaTemporalSeleccionada(ActividadNavegationDrawer.getTablaMultiplicar());
+        ActividadNavegationDrawer.setPorcentajeExito(porcetajeDeExito);
+        ActividadNavegationDrawer.setMultiplicacionesFallidas(multiplicacionFallidas);
+        ActividadNavegationDrawer.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
         super.onDestroyView();
     }
+
     @Override
     public void onPause() {
-        System.out.println("Fragmento pausado");
-        System.out.println(enviarEstadisticas);
-        //He tocado esto, RIVISA 17/1/2024
-        if(enviarEstadisticas && MainActivity.getIndiceMultiplicacion() != 0){
-            MainActivityPrincipal.setServicio(new Intent(requireContext(), MyService.class));
-            if(multiplicacionFallidas != null){
-                MainActivityPrincipal.getServicio().putStringArrayListExtra("multiplicacionesFallidas", new ArrayList<>(multiplicacionFallidas));
-            }
-            MainActivityPrincipal.getServicio().putExtra("usuarioLogeado",MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
-            MainActivityPrincipal.getServicio().putExtra("tablaSeleccionada", MainActivity.getTablaMultiplicar() == -1 ? 2 : MainActivity.getTablaMultiplicar());
-            if(MainActivity.getAvatares().size() >0){
-                MainActivityPrincipal.getServicio().putExtra("avatarJugado", MainActivity.getAvatares().get(9));
-            }
-            MainActivityPrincipal.getServicio().putExtra("enviarEstadisticas", MainActivityPrincipal.isEnviarEstadisticas());
-            requireContext().startService(MainActivityPrincipal.getServicio());
-        }
-        MainActivity.setTablaTemporalSeleccionada(MainActivity.getTablaMultiplicar());
-        MainActivity.setPorcentajeExito(porcetajeDeExito);
-        MainActivity.setMultiplicacionesFallidas(multiplicacionFallidas);
-        MainActivity.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
+        ActividadNavegationDrawer.setTablaTemporalSeleccionada(ActividadNavegationDrawer.getTablaMultiplicar());
+        ActividadNavegationDrawer.setPorcentajeExito(porcetajeDeExito);
+        ActividadNavegationDrawer.setMultiplicacionesFallidas(multiplicacionFallidas);
+        ActividadNavegationDrawer.setTablaSeleccionadoEnviar(tablaSeleccionadaEnviar);
+        //Envio tambien los resultados a la ActividadPrincipal
+        ActividadPrincipal.setAvatarJugado(ActividadNavegationDrawer.getAvatares().get(9));
+        ActividadPrincipal.setMultiplicacionesFallidas(multiplicacionFallidas);
+        ActividadPrincipal.setTablaSeleccionada(ActividadNavegationDrawer.getTablaMultiplicar() == -1 ? 2 : ActividadNavegationDrawer.getTablaMultiplicar());
+        ActividadPrincipal.setIndiceMultiplicacion(ActividadNavegationDrawer.getIndiceMultiplicacion());
         super.onPause();
     }
 }

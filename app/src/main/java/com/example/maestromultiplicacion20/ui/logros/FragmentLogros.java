@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.maestromultiplicacion20.MainActivity;
-import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.databinding.FragmentLogrosBinding;
+import com.example.maestromultiplicacion20.inicio.ActividadNavegationDrawer;
+import com.example.maestromultiplicacion20.R;
 
 /**
  * Fragmento para mostrar los avateres conseguido o logros
@@ -36,18 +36,18 @@ public class FragmentLogros extends Fragment {
     private void mostrarImagenesGrid(){
         gridLayout = binding.getRoot().findViewById(R.id.gridImageView);
         ImageView imgView;
-        for(int i = 0; i< MainActivity.getAvataresFinales().size(); i++){
+        for(int i = 0; i< ActividadNavegationDrawer.getAvataresFinales().size(); i++){
             imgView = new ImageView(requireContext());
-            if(MainActivity.getAvataresColeccionables().contains(MainActivity.getAvataresFinales().get(i))){
-                imgView.setImageResource(MainActivity.getAvataresFinales().get(i));
+            if(ActividadNavegationDrawer.getAvataresColeccionables().contains(ActividadNavegationDrawer.getAvataresFinales().get(i))){
+                imgView.setImageResource(ActividadNavegationDrawer.getAvataresFinales().get(i));
             }else{
-                imgView.setImageResource(MainActivity.getAvataresFinales().get(i));
+                imgView.setImageResource(ActividadNavegationDrawer.getAvataresFinales().get(i));
                 ColorMatrix colorMatrix = new ColorMatrix();
                 colorMatrix.setSaturation(0F);
                 ColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix);
                 imgView.setColorFilter(colorFilter);
             }
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(380, 380);
+            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(340, 340);
             imgView.setLayoutParams(layoutParams);
             gridLayout.addView(imgView, i);
         }

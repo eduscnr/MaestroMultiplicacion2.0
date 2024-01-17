@@ -107,7 +107,6 @@ public class EstadisticasFragment extends Fragment implements Spinner.OnItemSele
         } else if(adapterView.getId() == R.id.spinnerFecha){
             String fecha = fechas.get(i);
             estadisticas = estadisticasDAO.obtenerEstadisticas(fecha, usuarioSeleccionado);
-            System.out.println("Estadisticas: " +estadisticas);
             aTablas = new AdaptadorTablas(requireContext(), R.layout.seleccion_tabla, estadisticas);
             spinnerTabla.setAdapter(aTablas);
         }else if(adapterView.getId() == R.id.spinnerTablas){

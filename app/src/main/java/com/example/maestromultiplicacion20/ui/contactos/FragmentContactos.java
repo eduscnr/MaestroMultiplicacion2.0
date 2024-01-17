@@ -191,6 +191,5 @@ public class FragmentContactos extends Fragment implements ContactosOnClick {
                 cv,
                 ContactsContract.Contacts._ID + " = ?",
                 new String[]{String.valueOf(id)});
-        Toast.makeText(requireContext(), "Contacto agregado como favorito", Toast.LENGTH_SHORT).show();
     }
 }

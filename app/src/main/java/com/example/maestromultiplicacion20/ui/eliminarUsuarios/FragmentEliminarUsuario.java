@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 
 import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.adaptadores.AdaptadorEliminarUsuarios;
-import com.example.maestromultiplicacion20.adaptadores.AdaptadorUsuarios;
-import com.example.maestromultiplicacion20.adaptadores.UsuarioPersonalizadoAdapter;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 import com.example.maestromultiplicacion20.databinding.FragmentEliminarUsuarioBinding;
-import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
+import com.example.maestromultiplicacion20.inicio.ActividadPrincipal;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 import com.example.maestromultiplicacion20.modelo.UsuarioPersonalizado;
@@ -59,7 +57,7 @@ public class FragmentEliminarUsuario extends Fragment {
         List<UsuarioPersonalizado> itemList = new ArrayList<>();
         if(!usuarios.isEmpty()) {
             for (Usuario u : usuarios) {
-                if (!u.getNombreUsuario().equalsIgnoreCase(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario())){
+                if (!u.getNombreUsuario().equalsIgnoreCase(ActividadPrincipal.getUsuarioLogeado().getNombreUsuario())){
                     itemList.add(new UsuarioPersonalizado(u.getAvatarImg(), u.getNombreUsuario()));
                 }
             }

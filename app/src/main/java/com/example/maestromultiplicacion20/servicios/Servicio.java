@@ -6,18 +6,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
 
-import com.example.maestromultiplicacion20.MainActivity;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
-import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
-import com.example.maestromultiplicacion20.modelo.Usuario;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MyService extends Service {
+/**
+ * Clase servicio para usar cuando la aplicacion se cierra de golpe por android
+ */
+public class Servicio extends Service {
     private static boolean enviarEstadisticas = false;
     private static List<String> multiplicacionesFallidas;
     private static int porcentajeExito = 100;
@@ -37,12 +37,10 @@ public class MyService extends Service {
         avatarJugado = sharedPreferences.getInt("avatarJugado", 0);
         enviarEstadisticas = sharedPreferences.getBoolean("enviarEstadisticas", false);
         tablaSeleccionada = sharedPreferences.getInt("tablaSeleccionada", 0);
+        System.out.println(tablaSeleccionada + " por servicio");
+        System.out.println("Inteto recuperar algo: " + rootIntent.getIntExtra("tablaSeleccionada", 0));
         if(!enviarEstadisticas){
-            System.out.println("Envio estadisiticas porque me ha cerrado la app y no se ha enviado nada");
-            System.out.println(tablaSeleccionada);
-            System.out.println(usuarioLogeado);
-            System.out.println(multiplicacionesFallidasSet);
-            System.out.println(porcentajeExito);
+            System.out.println("Envio estadisticas por Servicio");
             EstadisticasDAO estadisticasDAO = new EstadisticasDAOImpl(this);
             if(multiplicacionesFallidasSet != null){
                 multiplicacionesFallidas = new ArrayList<>();
@@ -66,11 +64,11 @@ public class MyService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("Solo me activo una vez y ya");
         SharedPreferences.Editor editor = sharedPreferences.edit();
         //Comprobar nullos
         usuarioLogeado = intent.getStringExtra("usuarioLogeado");
         tablaSeleccionada = intent.getIntExtra("tablaSeleccionada", 0);
-        System.out.println("recopilo tabla seleccionado servicio: " + tablaSeleccionada);
         multiplicacionesFallidas = intent.getStringArrayListExtra("multiplicacionesFallidas");
         avatarJugado = intent.getIntExtra("avatarJugado",0);
         enviarEstadisticas = intent.getBooleanExtra("enviarEstadisticas", false);
@@ -87,7 +85,12 @@ public class MyService extends Service {
     }
     @Override
     public IBinder onBind(Intent intent) {
-        System.out.println("onBind");
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        System.out.println("destruido servicio");
+        super.onDestroy();
     }
 }

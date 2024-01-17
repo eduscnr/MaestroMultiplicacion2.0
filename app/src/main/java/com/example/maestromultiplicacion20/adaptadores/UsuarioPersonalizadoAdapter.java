@@ -11,10 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.maestromultiplicacion20.MainActivity;
+import com.example.maestromultiplicacion20.inicio.ActividadNavegationDrawer;
 import com.example.maestromultiplicacion20.R;
-import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
-import com.example.maestromultiplicacion20.inicio.MainActivitySingIn;
+import com.example.maestromultiplicacion20.inicio.ActividadPrincipal;
+import com.example.maestromultiplicacion20.inicio.ActividadSingUp;
 import com.example.maestromultiplicacion20.modelo.UsuarioPersonalizado;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 
@@ -85,14 +85,14 @@ public class UsuarioPersonalizadoAdapter extends RecyclerView.Adapter<UsuarioPer
             if (textView.getText().toString().equalsIgnoreCase("Crear")) {
                 onItemClickListener.onItemButtonClick();
             }else{
-                for (Usuario u: MainActivityPrincipal.getUsuarios()){
+                for (Usuario u: ActividadPrincipal.getUsuarios()){
                     if(u.getNombreUsuario().equalsIgnoreCase(textView.getText().toString()) && u.getTipoCuenta().equalsIgnoreCase("usuario")){
-                        MainActivityPrincipal.setUsuarioLogeado(u);
-                        Intent i = new Intent(context, MainActivity.class);
+                        ActividadPrincipal.setUsuarioLogeado(u);
+                        Intent i = new Intent(context, ActividadNavegationDrawer.class);
                         context.startActivity(i);
                     }else if(u.getNombreUsuario().equalsIgnoreCase(textView.getText().toString()) && u.getTipoCuenta().equalsIgnoreCase("administrador")){
-                        MainActivityPrincipal.setUsuarioLogeado(u);
-                        Intent i = new Intent(context, MainActivitySingIn.class);
+                        ActividadPrincipal.setUsuarioLogeado(u);
+                        Intent i = new Intent(context, ActividadSingUp.class);
                         context.startActivity(i);
                     }
                 }

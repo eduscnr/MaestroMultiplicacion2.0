@@ -165,14 +165,6 @@ public class FragmentContactosFav extends Fragment implements ContactosOnClick, 
         recyclerView.setHasFixedSize(true);
         adaptadorContactos = new AdaptadorContactos(contactos, this);
         recyclerView.setAdapter(adaptadorContactos);
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("le estoy haciendo click");
-                System.out.println(view.findViewById(R.id.tvNumeroContacto));
-            }
-        });
     }
 
     /**

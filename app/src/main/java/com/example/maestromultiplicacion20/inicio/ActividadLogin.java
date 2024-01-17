@@ -20,12 +20,10 @@ import com.example.maestromultiplicacion20.adaptadores.AdapatadorTipoCuenta;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 
-import kotlin.InitializedLazyImpl;
-
 /**
  * Clase para crear nuevos usuarios
  */
-public class MainActivityLogin extends AppCompatActivity implements Spinner.OnItemSelectedListener{
+public class ActividadLogin extends AppCompatActivity implements Spinner.OnItemSelectedListener{
     private String[] tipoCuentas= {"administrador", "usuario"};
     private Spinner spinnerCuenta;
     private AdapatadorTipoCuenta aTipoCuenta;
@@ -58,7 +56,7 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                 if(contrasenia.getVisibility() == View.VISIBLE && !contrasenia.getText().toString().equalsIgnoreCase("")){
                     if(!usuario.getText().toString().equalsIgnoreCase("")){
                         textViewInformacion.setVisibility(View.GONE);
-                        Intent intent = new Intent(MainActivityLogin.this, ActividadCrearCuentas.class);
+                        Intent intent = new Intent(ActividadLogin.this, ActividadCrearCuentas.class);
                         actividadResultadoAdministrador.launch(intent);
                     }else{
                         textViewInformacion.setVisibility(View.VISIBLE);
@@ -67,7 +65,7 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                 }else{
                     if(!usuario.getText().toString().equalsIgnoreCase("") && contrasenia.getVisibility() == View.GONE){
                             textViewInformacion.setVisibility(View.GONE);
-                            Intent intent = new Intent(MainActivityLogin.this, ActividadCrearCuentas.class);
+                            Intent intent = new Intent(ActividadLogin.this, ActividadCrearCuentas.class);
                             actividadResultUsuario.launch(intent);
                     }else{
                         textViewInformacion.setVisibility(View.VISIBLE);
@@ -83,9 +81,8 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                         String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), null, cuenta, R.drawable.icons8_usuario_48__1_);
                         if(!registrado.equalsIgnoreCase("Usuario ya registrado")){
                             textViewInformacion.setVisibility(View.GONE);
-                            System.out.println("he pasado por aqui y no se porque?");
-                            MainActivityPrincipal.getUsuarios().clear();
-                            MainActivityPrincipal.setUsuarios(estadisticasDAO.obtenerUsuarios());
+                            ActividadPrincipal.getUsuarios().clear();
+                            ActividadPrincipal.setUsuarios(estadisticasDAO.obtenerUsuarios());
                             Intent i = new Intent();
                             i.putExtra("Usuario", usuario.getText().toString());
                             setResult(RESULT_OK, i);
@@ -104,8 +101,8 @@ public class MainActivityLogin extends AppCompatActivity implements Spinner.OnIt
                         String registrado = estadisticasDAO.registrarUsuario(usuario.getText().toString(), contrasenia.getText().toString(), cuenta, R.drawable.icons8_usuario_48__1_);
                         if(!registrado.equalsIgnoreCase("Usuario ya registrado")){
                             textViewInformacion.setVisibility(View.GONE);
-                            MainActivityPrincipal.getUsuarios().clear();
-                            MainActivityPrincipal.setUsuarios(estadisticasDAO.obtenerUsuarios());
+                            ActividadPrincipal.getUsuarios().clear();
+                            ActividadPrincipal.setUsuarios(estadisticasDAO.obtenerUsuarios());
                             Intent i = new Intent();
                             i.putExtra("Usuario", usuario.getText().toString());
                             setResult(RESULT_OK, i);

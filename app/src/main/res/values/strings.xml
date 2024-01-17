@@ -30,4 +30,9 @@
     <string name="registrar">Registrar</string>
     <string name="ingresar">Ingresar</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--Texto de la aplicación-->
+    <string name="eliminarUsuarios">Eliminar usuarios</string>
+    <string name="instruccionEliminar">Haz clic a un usuario para eliminarlo</string>
+    <string name="contactosFavoritos">Contactos favoritos</string>
+    <string name="instruccionesContFav">Haz clic en un contacto favorito para enviar las estadísticas</string>
 </resources>

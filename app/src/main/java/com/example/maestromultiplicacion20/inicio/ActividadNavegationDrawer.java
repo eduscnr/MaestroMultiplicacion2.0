@@ -1,4 +1,4 @@
-package com.example.maestromultiplicacion20;
+package com.example.maestromultiplicacion20.inicio;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -7,8 +7,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
-import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.google.android.material.navigation.NavigationView;
 
@@ -29,7 +29,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class ActividadNavegationDrawer extends AppCompatActivity{
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity{
     private static List<Integer> avataresFinales = new ArrayList<>(Arrays.asList(R.drawable.superman10, R.drawable.batman10, R.drawable.ironman10, R.drawable.spiderman10, R.drawable.thor10));
     private Menu menu;
     //Para guardas las estadisticas en la base de datos cuando le da para atras en el dispositivo o destruye la actividad
-    private static int porcentajeExito;
+    private static int porcentajeExito = 100;
     private static int tablaSeleccionadoEnviar;
     private static List<String> multiplicacionesFallidas;
     private EstadisticasDAO estadisticasDAO;
@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Reactivo la conexion");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -64,8 +63,6 @@ public class MainActivity extends AppCompatActivity{
         multiplicacionesFallidas = new ArrayList<>();
         estadisticasDAO = new EstadisticasDAOImpl(this);
         setTablaMultiplicar(2);
-        System.out.println("Tabla bien: " + tablaMultiplicar);
-        System.out.println("Tabla temporal: " +tablaTemporalSeleccionada);
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -81,8 +78,8 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navigationView, navController);
         ImageView imageView = navigationView.getHeaderView(0).findViewById(R.id.imageAvatar);
         TextView textView = navigationView.getHeaderView(0).findViewById(R.id.textViewUsuario);
-        textView.setText(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
-        imageView.setImageResource(MainActivityPrincipal.getUsuarioLogeado().getAvatarImg());
+        textView.setText(ActividadPrincipal.getUsuarioLogeado().getNombreUsuario());
+        imageView.setImageResource(ActividadPrincipal.getUsuarioLogeado().getAvatarImg());
         //Referencia de los id del menu para ocultar fragmentos, dependiendo del tipo de cuenta
         menu = navigationView.getMenu();
         MenuItem menuEstadisticas = menu.findItem(R.id.nav_estadisticas);
@@ -93,7 +90,7 @@ public class MainActivity extends AppCompatActivity{
         MenuItem menuContactos = menu.findItem(R.id.nav_contactos);
         MenuItem menuSalir = menu.findItem(R.id.nav_salir);
         MenuItem menuEliminar = menu.findItem(R.id.nav_eliminar);
-        if(MainActivityPrincipal.getUsuarioLogeado().getTipoCuenta().equalsIgnoreCase("usuario")){
+        if(ActividadPrincipal.getUsuarioLogeado().getTipoCuenta().equalsIgnoreCase("usuario")){
             menuEstadisticas.setVisible(false);
             menuEnviarEsta.setVisible(false);
             menuContactos.setVisible(false);
@@ -121,7 +118,6 @@ public class MainActivity extends AppCompatActivity{
         menuSalir.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                System.out.println("Le he hecho click");
                 finish();
                 return true;
             }
@@ -138,7 +134,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setAvatar(int avatar) {
-        MainActivity.avatar = avatar;
+        ActividadNavegationDrawer.avatar = avatar;
     }
 
     public static String getDificultad() {
@@ -146,7 +142,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setDificultad(String dificultad) {
-        MainActivity.dificultad = dificultad;
+        ActividadNavegationDrawer.dificultad = dificultad;
     }
 
     public static int getTablaMultiplicar() {
@@ -154,7 +150,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setTablaMultiplicar(int tablaMultiplicar) {
-        MainActivity.tablaMultiplicar = tablaMultiplicar;
+        ActividadNavegationDrawer.tablaMultiplicar = tablaMultiplicar;
     }
 
     public static int getColorAplicacion() {
@@ -162,7 +158,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setColorAplicacion(int colorAplicacion) {
-        MainActivity.colorAplicacion = colorAplicacion;
+        ActividadNavegationDrawer.colorAplicacion = colorAplicacion;
     }
 
     public static List<String> getMultiplicaciones() {
@@ -174,7 +170,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setIndiceMultiplicacion(int indiceMultiplicacion) {
-        MainActivity.indiceMultiplicacion = indiceMultiplicacion;
+        ActividadNavegationDrawer.indiceMultiplicacion = indiceMultiplicacion;
     }
 
     public static int getTablaTemporalSeleccionada() {
@@ -182,7 +178,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setTablaTemporalSeleccionada(int tablaTemporalSeleccionada) {
-        MainActivity.tablaTemporalSeleccionada = tablaTemporalSeleccionada;
+        ActividadNavegationDrawer.tablaTemporalSeleccionada = tablaTemporalSeleccionada;
     }
 
     public static List<Integer> getAvatares() {
@@ -194,7 +190,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setIndiceAvatar(int indiceAvatar) {
-        MainActivity.indiceAvatar = indiceAvatar;
+        ActividadNavegationDrawer.indiceAvatar = indiceAvatar;
     }
 
     public static List<Integer> getAvataresColeccionables() {
@@ -210,27 +206,29 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public static void setPorcentajeExito(int porcentajeExito) {
-        MainActivity.porcentajeExito = porcentajeExito;
+        ActividadNavegationDrawer.porcentajeExito = porcentajeExito;
     }
 
     public static void setTablaSeleccionadoEnviar(int tablaSeleccionadoEnviar) {
-        MainActivity.tablaSeleccionadoEnviar = tablaSeleccionadoEnviar;
+        ActividadNavegationDrawer.tablaSeleccionadoEnviar = tablaSeleccionadoEnviar;
     }
 
     public static void setMultiplicacionesFallidas(List<String> multiplicacionesFallidas) {
-        MainActivity.multiplicacionesFallidas = multiplicacionesFallidas;
+        ActividadNavegationDrawer.multiplicacionesFallidas = multiplicacionesFallidas;
     }
-    //Revision del codigo para atras puede ser que no sirva, REVISA
     @Override
     protected void onDestroy() {
-        System.out.println("Actividad Navegation finalizada");
-        if(indiceMultiplicacion != 0 && multiplicaciones.size() > 0 && !MainActivityPrincipal.isEnviarEstadisticas()){
-            System.out.println("le di para atrar y se destruyo, asi que envia estadisticas");
-            String multiplicacionSinHacer = multiplicaciones.get(indiceMultiplicacion);
-            multiplicacionesFallidas.add(multiplicacionSinHacer+"=Cambió");
+        if(indiceMultiplicacion != 0 && multiplicaciones.size() > 0 && !ActividadPrincipal.isEnviarEstadisticas()){
+            if(multiplicacionesFallidas != null){
+                String multiplicacionSinHacer = multiplicaciones.get(indiceMultiplicacion);
+                multiplicacionesFallidas.add(multiplicacionSinHacer+"=Cambió");
+                for (String multiplicacion : multiplicacionesFallidas){
+                    porcentajeExito -= 10;
+                }
+            }
             estadisticasDAO.insertarEstadisticas(String.valueOf(porcentajeExito), String.valueOf(tablaMultiplicar), multiplicacionesFallidas,
-                    estadisticasDAO.obtenerIdUsuario(MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario()), avatares.get(9));
-            MainActivityPrincipal.setEnviarEstadisticas(true);
+                    estadisticasDAO.obtenerIdUsuario(ActividadPrincipal.getUsuarioLogeado().getNombreUsuario()), avatares.get(9));
+            ActividadPrincipal.setEnviarEstadisticas(true);
         }
         super.onDestroy();
     }

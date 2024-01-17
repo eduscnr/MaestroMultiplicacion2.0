@@ -5,8 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 
-import com.example.maestromultiplicacion20.MainActivity;
-import com.example.maestromultiplicacion20.inicio.MainActivityPrincipal;
+import com.example.maestromultiplicacion20.inicio.ActividadNavegationDrawer;
+import com.example.maestromultiplicacion20.inicio.ActividadPrincipal;
 import com.example.maestromultiplicacion20.interfaces.EstadisticasDAO;
 import com.example.maestromultiplicacion20.modelo.Estadisticas;
 import com.example.maestromultiplicacion20.modelo.Usuario;
@@ -98,16 +98,15 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
                         multiplicacionFallidaS += ", " + tablasFallidas.get(i);
                     }
                 }
-                System.out.println(multiplicacionFallidaS);
             }else{
                 multiplicacionFallidaS = tablasFallidas.get(0);
             }
         }
 
-        if(MainActivityPrincipal.isEnviarEstadisticas() == false) {
+        if(ActividadPrincipal.isEnviarEstadisticas() == false) {
             db = dbHelper.getReadableDatabase();
             db.execSQL("INSERT INTO ESTADISTICAS (porcentaje, tabla, tablas_fallidas, fecha, avatarJugado, id_usuario) VALUES (" +
-                    porcentaje + ", " + tabla + ", '" + multiplicacionFallidaS + "', '" + MainActivity.convertirFeche(new GregorianCalendar()) + "', " + avatarJuagado + ", " + idUsuario + ")");
+                    porcentaje + ", " + tabla + ", '" + multiplicacionFallidaS + "', '" + ActividadNavegationDrawer.convertirFeche(new GregorianCalendar()) + "', " + avatarJuagado + ", " + idUsuario + ")");
             db.close();
             System.out.println("Inserción realizada");
         }
@@ -161,7 +160,6 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
                 db.execSQL("INSERT INTO USUARIO (nombreUsu, tipoCuenta, avatar, contraseña) VALUES ('" +
                         usuario + "', '" + tipoCuenta + "', '" + avatar + "', '" + contrasenia + "')");
             }catch (Exception e){
-                System.out.println("Usuario ya registrado");
                 return "Usuario ya registrado";
             }finally {
                 db.close();
@@ -171,7 +169,6 @@ public class EstadisticasDAOImpl implements EstadisticasDAO {
                 db.execSQL("INSERT INTO USUARIO (nombreUsu, tipoCuenta, avatar) VALUES ('" +
                         usuario + "', '" + tipoCuenta + "', '" + avatar + "')");
             }catch (Exception e){
-                System.out.println("Usuario ya registrado");
                 return "Usuario ya registrado";
             }finally {
                 db.close();
