@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity{
     private static int colorAplicacion;
     private static List<String> multiplicaciones;
     private static int indiceMultiplicacion;
-    private static int tablaTemporalSeleccionada;
+    private static int tablaTemporalSeleccionada = -1;
     private static int indiceAvatar;
     private static List<Integer>avatares;
     private static List<Integer> avataresColeccionables;
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Reactivo la conexion");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity{
         multiplicacionesFallidas = new ArrayList<>();
         estadisticasDAO = new EstadisticasDAOImpl(this);
         setTablaMultiplicar(2);
+        System.out.println("Tabla bien: " + tablaMultiplicar);
+        System.out.println("Tabla temporal: " +tablaTemporalSeleccionada);
         setSupportActionBar(binding.appBarMain.toolbar);
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;

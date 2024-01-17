@@ -69,6 +69,8 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
         }
         binding = FragmentEntrenarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        System.out.println("Tabla bien: " + MainActivity.getTablaMultiplicar());
+        System.out.println("Tabla temporal: " + MainActivity.getTablaTemporalSeleccionada());
         estadisticasDAO = new EstadisticasDAOImpl(requireContext());
         textViewMultiplicacion = root.findViewById(R.id.textViewMultiplicacion);
         editTextRespuesta = root.findViewById(R.id.editTextRespuesta);
@@ -97,6 +99,7 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             }
         }
         if (MainActivity.getTablaTemporalSeleccionada() != MainActivity.getTablaMultiplicar()) {
+            System.out.println("Entro por aqui cuando cierro sesion");
             enviarEstadisticas = true;
             //Ingreso las estadisticas si el usuario ha cambia de fragmento.
             if(MainActivity.getIndiceMultiplicacion() != 0 && MainActivity.getIndiceMultiplicacion() != 10 && MainActivity.getMultiplicaciones().size() > 0){
@@ -107,7 +110,9 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
             inicializarAvatar(MainActivity.getAvatar());
             entrenar(MainActivity.getDificultad(), MainActivity.getTablaMultiplicar());
         }
-        mostrarSiguienteMultiplicacion();
+        if (MainActivity.getMultiplicaciones().size() >0){
+            mostrarSiguienteMultiplicacion();
+        }
         //Muestro el porcentaje en un textView
         procentaje.setText(progreso + "%");
         return root;
@@ -341,14 +346,17 @@ public class EntrenarFragment extends Fragment implements View.OnClickListener{
     public void onPause() {
         System.out.println("Fragmento pausado");
         System.out.println(enviarEstadisticas);
-        if(enviarEstadisticas){
+        //He tocado esto, RIVISA 17/1/2024
+        if(enviarEstadisticas && MainActivity.getIndiceMultiplicacion() != 0){
             MainActivityPrincipal.setServicio(new Intent(requireContext(), MyService.class));
             if(multiplicacionFallidas != null){
                 MainActivityPrincipal.getServicio().putStringArrayListExtra("multiplicacionesFallidas", new ArrayList<>(multiplicacionFallidas));
             }
             MainActivityPrincipal.getServicio().putExtra("usuarioLogeado",MainActivityPrincipal.getUsuarioLogeado().getNombreUsuario());
             MainActivityPrincipal.getServicio().putExtra("tablaSeleccionada", MainActivity.getTablaMultiplicar() == -1 ? 2 : MainActivity.getTablaMultiplicar());
-            MainActivityPrincipal.getServicio().putExtra("avatarJugado", MainActivity.getAvatares().get(9));
+            if(MainActivity.getAvatares().size() >0){
+                MainActivityPrincipal.getServicio().putExtra("avatarJugado", MainActivity.getAvatares().get(9));
+            }
             MainActivityPrincipal.getServicio().putExtra("enviarEstadisticas", MainActivityPrincipal.isEnviarEstadisticas());
             requireContext().startService(MainActivityPrincipal.getServicio());
         }
