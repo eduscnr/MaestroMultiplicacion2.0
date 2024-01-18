@@ -10,80 +10,80 @@
 
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="251dp"
+        android:layout_width="0dp"
         android:layout_height="44dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="80dp"
-        android:layout_marginEnd="163dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="Escribe tu correo electrónico"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.075"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintEnd_toStartOf="@+id/btnEnviar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerUsuario" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="166dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="169dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/contactosFavoritos"
         android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.563"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintEnd_toStartOf="@+id/btnEnviar"
+        app:layout_constraintTop_toBottomOf="@+id/btnEnviar" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="166dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="169dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="2dp"
         android:text="@string/instruccionesContFav"
         android:textColor="@color/black"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewConFav"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewConFav"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <Button
         android:id="@+id/btnEnviar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="12dp"
         android:text="Enviar"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/etEmail"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerUsuario" />
 
     <Spinner
         android:id="@+id/spinnerUsuario"
-        android:layout_width="362dp"
-        android:layout_height="49dp"
+        android:layout_width="366dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="23dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnEnviar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewConFav"
-        android:layout_width="413dp"
-        android:layout_height="521dp"
-        android:layout_marginStart="4dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etEmail"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
