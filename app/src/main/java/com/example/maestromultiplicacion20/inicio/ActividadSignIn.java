@@ -19,11 +19,11 @@ import com.example.maestromultiplicacion20.modelo.Usuario;
  * Clase para iniciar sesio las cuentas admin
  */
 
-public class ActividadSingUp extends AppCompatActivity {
+public class ActividadSignIn extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_sing_up);
+        setContentView(R.layout.activity_main_sign_in);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         EditText edUsuario = findViewById(R.id.edtNombreUsuario);
         EditText contrasenia = findViewById(R.id.edtContrasenia);
@@ -39,8 +39,8 @@ public class ActividadSingUp extends AppCompatActivity {
             public void onClick(View view) {
                 Usuario usuario = estadisticasDAO.obtenerUsuario(edUsuario.getText().toString());
                 if(usuario.getContrasenia().equalsIgnoreCase(contrasenia.getText().toString())){
-                    Intent i = new Intent(ActividadSingUp.this, ActividadNavegationDrawer.class);
-                    ActividadSingUp.this.startActivity(i);
+                    Intent i = new Intent(ActividadSignIn.this, ActividadNavegationDrawer.class);
+                    ActividadSignIn.this.startActivity(i);
                     finish();
                 }else{
                     textInformacion.setVisibility(View.VISIBLE);

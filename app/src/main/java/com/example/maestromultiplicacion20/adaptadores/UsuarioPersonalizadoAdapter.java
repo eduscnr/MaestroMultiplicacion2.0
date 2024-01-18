@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.maestromultiplicacion20.inicio.ActividadNavegationDrawer;
 import com.example.maestromultiplicacion20.R;
 import com.example.maestromultiplicacion20.inicio.ActividadPrincipal;
-import com.example.maestromultiplicacion20.inicio.ActividadSingUp;
+import com.example.maestromultiplicacion20.inicio.ActividadSignIn;
 import com.example.maestromultiplicacion20.modelo.UsuarioPersonalizado;
 import com.example.maestromultiplicacion20.modelo.Usuario;
 
@@ -92,7 +92,7 @@ public class UsuarioPersonalizadoAdapter extends RecyclerView.Adapter<UsuarioPer
                         context.startActivity(i);
                     }else if(u.getNombreUsuario().equalsIgnoreCase(textView.getText().toString()) && u.getTipoCuenta().equalsIgnoreCase("administrador")){
                         ActividadPrincipal.setUsuarioLogeado(u);
-                        Intent i = new Intent(context, ActividadSingUp.class);
+                        Intent i = new Intent(context, ActividadSignIn.class);
                         context.startActivity(i);
                     }
                 }

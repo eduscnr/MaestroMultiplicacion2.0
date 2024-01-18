@@ -23,7 +23,7 @@ import com.example.maestromultiplicacion20.database.EstadisticasDAOImpl;
 /**
  * Clase para crear nuevos usuarios
  */
-public class ActividadLogin extends AppCompatActivity implements Spinner.OnItemSelectedListener{
+public class ActividadSignUp extends AppCompatActivity implements Spinner.OnItemSelectedListener{
     private String[] tipoCuentas= {"administrador", "usuario"};
     private Spinner spinnerCuenta;
     private AdapatadorTipoCuenta aTipoCuenta;
@@ -37,7 +37,7 @@ public class ActividadLogin extends AppCompatActivity implements Spinner.OnItemS
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_login);
+        setContentView(R.layout.activity_main_sign_up);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         estadisticasDAO = new EstadisticasDAOImpl(this);
         EditText usuario = findViewById(R.id.edtNombreUsuario);
@@ -56,7 +56,7 @@ public class ActividadLogin extends AppCompatActivity implements Spinner.OnItemS
                 if(contrasenia.getVisibility() == View.VISIBLE && !contrasenia.getText().toString().equalsIgnoreCase("")){
                     if(!usuario.getText().toString().equalsIgnoreCase("")){
                         textViewInformacion.setVisibility(View.GONE);
-                        Intent intent = new Intent(ActividadLogin.this, ActividadCrearCuentas.class);
+                        Intent intent = new Intent(ActividadSignUp.this, ActividadCrearCuentas.class);
                         actividadResultadoAdministrador.launch(intent);
                     }else{
                         textViewInformacion.setVisibility(View.VISIBLE);
@@ -65,7 +65,7 @@ public class ActividadLogin extends AppCompatActivity implements Spinner.OnItemS
                 }else{
                     if(!usuario.getText().toString().equalsIgnoreCase("") && contrasenia.getVisibility() == View.GONE){
                             textViewInformacion.setVisibility(View.GONE);
-                            Intent intent = new Intent(ActividadLogin.this, ActividadCrearCuentas.class);
+                            Intent intent = new Intent(ActividadSignUp.this, ActividadCrearCuentas.class);
                             actividadResultUsuario.launch(intent);
                     }else{
                         textViewInformacion.setVisibility(View.VISIBLE);

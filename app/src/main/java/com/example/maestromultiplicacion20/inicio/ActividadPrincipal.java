@@ -65,7 +65,7 @@ public class ActividadPrincipal extends AppCompatActivity {
             @Override
             public void onItemButtonClick() {
                 // Hago un intent que ejecuta otra actividad que seria la de login
-                Intent intent = new Intent(ActividadPrincipal.this, ActividadLogin.class);
+                Intent intent = new Intent(ActividadPrincipal.this, ActividadSignUp.class);
                 activityResultLauncher.launch(intent);
             }
         });

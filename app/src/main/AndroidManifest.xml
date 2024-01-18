@@ -21,7 +21,7 @@
             android:theme="@style/Theme.MaestroMultiplicacion20.NoActionBar"/>
 
         <activity
-            android:name=".inicio.ActividadSingUp"
+            android:name=".inicio.ActividadSignIn"
             android:exported="false"
             android:theme="@style/Theme.MaestroMultiplicacion20.NoActionBar" />
         <activity
@@ -29,7 +29,7 @@
             android:exported="false"
             android:theme="@style/Theme.MaestroMultiplicacion20.NoActionBar" />
         <activity
-            android:name=".inicio.ActividadLogin"
+            android:name=".inicio.ActividadSignUp"
             android:exported="false"
             android:theme="@style/Theme.MaestroMultiplicacion20.NoActionBar" />
         <activity
